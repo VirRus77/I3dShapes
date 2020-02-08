@@ -14,7 +14,8 @@ namespace I3dShapes.Container
         public static readonly ShapeType[] AllKnownTypes = new[]
         {
             ShapeType.Type1,
-            ShapeType.Spline
+            ShapeType.Spline,
+            ShapeType.Type3,
         };
 
         /// <summary>
@@ -28,6 +29,9 @@ namespace I3dShapes.Container
                 },
                 {
                     ShapeType.Spline, reader => new Spline(reader)
+                },
+                {
+                    ShapeType.Type3, reader => new ShapeType3(reader)
                 },
             };
 

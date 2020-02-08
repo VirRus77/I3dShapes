@@ -37,7 +37,7 @@ namespace I3dShapes.Tests
                 Trace.WriteLine(message);
                 Assert.Inconclusive(message);
             }
-            LoadTypedShape<ShapeType1>(version, shapeFileName,1, reader => new ShapeType1(reader));
+            LoadTypedShape(version, shapeFileName,1, reader => new ShapeType1(reader));
         }
 
         [TestMethod]
@@ -49,7 +49,19 @@ namespace I3dShapes.Tests
         [DataRow(FarmSimulatorVersion.FarmingSimulator2019, "mapUS.i3d.shapes")]
         public void LoadShapeType2Test(FarmSimulatorVersion version, string shapeFileName)
         {
-            LoadTypedShape<Spline>(version, shapeFileName,2, reader => new Spline(reader));
+            LoadTypedShape(version, shapeFileName,2, reader => new Spline(reader));
+        }
+
+        [TestMethod]
+        [DataRow(FarmSimulatorVersion.FarmingSimulator2015, "map01.i3d.shapes")]
+        [DataRow(FarmSimulatorVersion.FarmingSimulator2015, "map02.i3d.shapes")]
+        [DataRow(FarmSimulatorVersion.FarmingSimulator2017, "map01.i3d.shapes")]
+        [DataRow(FarmSimulatorVersion.FarmingSimulator2017, "map02.i3d.shapes")]
+        [DataRow(FarmSimulatorVersion.FarmingSimulator2019, "mapDE.i3d.shapes")]
+        [DataRow(FarmSimulatorVersion.FarmingSimulator2019, "mapUS.i3d.shapes")]
+        public void LoadShapeType3Test(FarmSimulatorVersion version, string shapeFileName)
+        {
+            LoadTypedShape(version, shapeFileName,3, reader => new ShapeType3(reader));
         }
 
         public void LoadTypedShape<T>(FarmSimulatorVersion version, string shapeFileName, int rawType,Func<BinaryReader, T> loadShape)

@@ -17,6 +17,16 @@ struct Point{
   float z <bgcolor=0x20F0F0>;
 };
 
+struct IndexBlock {
+  short P1 <bgcolor=0x20F080>;
+  short P2 <bgcolor=0xF08080>;
+};
+
+struct CountIndexBlock {
+  uint count <bgcolor=0x20F0F0>;
+  IndexBlock Indexis[count];
+};
+
 void Align(int mod){
   local int pos = FTell();
   local int newPos = ((pos+3)/4)*4;
@@ -34,7 +44,23 @@ uint nameLen;
 char Name[nameLen] <fgcolor=0xF0F000>;
 Align(4);
 
-uint ShapeId;
-byte unknowFlags[4];
-uint PointCount;
-Point Points[PointCount] <fgcolor=0x20F080>;
+uint ShapeId <bgcolor=0x20F080>;
+float Unknow1;
+float Unknow2;
+float Unknow3;
+float Unknow4;
+float Unknow5;
+float Unknow6;
+float Unknow7;
+float Unknow8;
+int  CountPoints <bgcolor=0x20F0F0>;
+int  CountIndexis <bgcolor=0x20F080>;
+int  Unknown11 <bgcolor=0xF08080>;
+Point Points[CountPoints];
+CountIndexBlock IndexBlocks[CountIndexis] <optimize=false>;
+//Point p[10];
+/*
+float x<bgcolor=0x20F080>;
+float x<bgcolor=0xF08080>;
+float x<bgcolor=0x20F0F0>;
+*/
