@@ -13,9 +13,14 @@ namespace I3dShapes.Model
         {
         }
 
-        public ShapeType Type { get; }
-
+        /// <summary>
+        /// Shame name
+        /// </summary>
         public string Name { get; private set; }
+
+        /// <summary>
+        /// Shape Id
+        /// </summary>
         public uint Id { get; private set; }
 
         /// <summary>
@@ -32,6 +37,7 @@ namespace I3dShapes.Model
             {
                 throw new UnknownFormatShapeException();
             }
+
             Id = reader.ReadUInt32();
         }
     }

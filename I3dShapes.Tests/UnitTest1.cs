@@ -34,6 +34,7 @@ namespace I3dShapes.Tests
 
             var container = new FileContainer(mapPath);
             var entities = container.GetEntities();
+            var shapes = container.LoadKnowTypes(entities);
             container
                 .ReadRawData(entities.Where(v => v.Type == 1))
                 .Select(

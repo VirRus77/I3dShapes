@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using I3dShapes.Model;
 using I3dShapes.Tools;
 using I3dShapes.Tools.Extensions;
 using Microsoft.Extensions.Logging;
@@ -10,6 +11,26 @@ namespace I3dShapes.Container
 {
     public class FileContainer
     {
+        public static readonly ShapeType[] AllKnownTypes = new[]
+        {
+            ShapeType.Type1,
+            ShapeType.Spline
+        };
+
+        /// <summary>
+        /// Loaders known types;
+        /// </summary>
+        private readonly static Dictionary<ShapeType, Func<BinaryReader, IShapeObject>> KnownTypeToLoader =
+            new Dictionary<ShapeType, Func<BinaryReader, IShapeObject>>
+            {
+                {
+                    ShapeType.Type1, reader => new ShapeType1(reader)
+                },
+                {
+                    ShapeType.Spline, reader => new Spline(reader)
+                },
+            };
+
         private readonly ILogger _logger;
         private readonly IDecryptor _decryptor;
 
@@ -157,6 +178,56 @@ namespace I3dShapes.Container
         internal static ulong RoundUp(in ulong value, in ulong toNearest)
         {
             return (value + toNearest - 1) / toNearest;
+        }
+
+        public ICollection<IShapeObject> LoadKnowTypes(ICollection<Entity> entities)
+        {
+            return LoadKnowTypes(entities, AllKnownTypes);
+        }
+        public ICollection<IShapeObject> LoadKnowTypes(ICollection<Entity> entities, params ShapeType[] loadTypes)
+        {
+            var loadedRawTypes = loadTypes
+                                 .Select(v => ShapeTypeToRawType(v))
+                                 .Distinct()
+                                 .Where(v => v != 0)
+                                 .ToArray();
+
+            return ReadRawData(entities.Where(v => loadedRawTypes.Contains(v.Type)))
+                .Select(v => LoadKnowType(v, Endian))
+                .ToArray();
+        }
+
+        private static IShapeObject LoadKnowType((Entity Entity, byte[] RawData) entity, Endian endian)
+        {
+            using var stream = new MemoryStream(entity.RawData);
+            using var binaryRead = new EndianBinaryReader(stream, endian);
+            return KnownTypeToLoader[RawTypeToShapeType(entity.Entity.Type)](binaryRead);
+        }
+
+        private static ShapeType RawTypeToShapeType(uint rawType)
+        {
+            switch (rawType)
+            {
+                case 1:
+                    return ShapeType.Type1;
+                case 2:
+                    return ShapeType.Spline;
+                default:
+                    return ShapeType.Unknown;
+            }
+        }
+
+        private static uint ShapeTypeToRawType(ShapeType shapeType)
+        {
+            switch (shapeType)
+            {
+                case ShapeType.Type1:
+                    return 1;
+                case ShapeType.Spline:
+                    return 2;
+                default:
+                    return 0;
+            }
         }
     }
 }

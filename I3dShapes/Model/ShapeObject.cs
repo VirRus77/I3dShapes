@@ -7,6 +7,9 @@
             Type = type;
         }
 
+        /// <summary>
+        /// Shape type
+        /// </summary>
         public ShapeType Type { get; }
     }
 }

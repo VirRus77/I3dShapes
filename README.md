@@ -15,5 +15,5 @@ var shapes = container.LoadKnowTypes(entities);
 // OR Custom shape types
 shapes = container.LoadKnowTypes(entities, new[]{ ShapeType.Type1 });
 
-var shapesType1 = shapes.OfType<ShapeType1>.ToArray();
+var shapesType1 = shapes.OfType<ShapeType1>().ToArray();
 ```
