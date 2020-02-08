@@ -15,5 +15,10 @@ namespace I3dShapes.Tools.Extensions
             var bytesToRead = (int)(countBytes - mod);
             return reader.ReadBytes(bytesToRead);
         }
+
+        public static bool EndOfStream(this BinaryReader reader)
+        {
+            return reader.BaseStream.Position == reader.BaseStream.Length;
+        }
     }
 }

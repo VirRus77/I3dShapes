@@ -14,13 +14,19 @@ namespace I3dShapes.Tests
     {
         private static readonly string OutputPath = @"G:\NickProd\Farming Simulator 19\Temp";
 
-        [TestMethod]
+        //[TestMethod]
+        /*
+        [DataRow(FarmSimulatorVersion.FarmingSimulator2015, "map01.i3d.shapes")]
+        [DataRow(FarmSimulatorVersion.FarmingSimulator2015, "map02.i3d.shapes")]
         [DataRow(FarmSimulatorVersion.FarmingSimulator2017, "map01.i3d.shapes")]
         [DataRow(FarmSimulatorVersion.FarmingSimulator2017, "map02.i3d.shapes")]
+        */
+        [DataRow(FarmSimulatorVersion.FarmingSimulator2019, "mapDE.i3d.shapes")]
+        [DataRow(FarmSimulatorVersion.FarmingSimulator2019, "mapUS.i3d.shapes")]
         public void ExportShapeType1(in FarmSimulatorVersion version, in string mapName)
         {
             var outputPath = Path.Combine(OutputPath, version.ToString(), mapName);
-            var mapPath = Path.Combine(GamePaths.GetGameMapsPath(FarmSimulatorVersion.FarmingSimulator2017), mapName);
+            var mapPath = Path.Combine(GamePaths.GetGameMapsPath(version), mapName);
             if (!File.Exists(mapPath))
             {
                 Assert.Inconclusive($"File map not found [{version}]: \"{mapName}\"");
@@ -29,9 +35,41 @@ namespace I3dShapes.Tests
             var container = new FileContainer(mapPath);
             var entities = container.GetEntities();
             container
+                .ReadRawData(entities.Where(v => v.Type == 1))
+                .Select(
+                    (entityRaw, i) =>
+                    {
+                        using var stream = new MemoryStream(entityRaw.RawData);
+                        using var reader = new EndianBinaryReader(stream, container.Endian);
+                        return new ReverseEngineeringNamedShape1Object(entityRaw.Entity.Type, reader);
+                    }
+                )
+                .ForEach(
+                    (v, i) =>
+                    {
+                        var output = Path.Combine(outputPath, v.RawType.ToString(), v.Flag);
+                        if (!Directory.Exists(output))
+                        {
+                            Directory.CreateDirectory(output);
+                        }
+
+                        output = Path.Combine(output, $"{v.Flag}_[{v.Id}]_{FileTools.CleanFileName(v.Name)}.bin");
+                        File.WriteAllBytes(output, v.RawData);
+                    }
+                );
+        }
+
+        //[TestMethod]
+        [DataRow(@"G:\NickProd\Farming Simulator 19\Temp\FarmingSimulator2019\mapUS.i3d.shapes\Export\1346.i3d.shapes")]
+        public void ExtractFile(string filePath)
+        {
+            var container = new FileContainer(filePath);
+            var outDirectory = Path.GetDirectoryName(filePath);
+            var entities = container.GetEntities();
+            container
                 .ReadRawData(entities)
                 .Select(
-                    entityRaw =>
+                    (entityRaw, i) =>
                     {
                         using var stream = new MemoryStream(entityRaw.RawData);
                         using var reader = new EndianBinaryReader(stream, container.Endian);
@@ -39,29 +77,18 @@ namespace I3dShapes.Tests
                     }
                 )
                 .ForEach(
-                    (v,i) =>
+                    (v, i) =>
                     {
-                        var output = Path.Combine(outputPath, v.RawType.ToString());
+                        var output = Path.Combine(outDirectory, v.RawType.ToString());
                         if (!Directory.Exists(output))
                         {
                             Directory.CreateDirectory(output);
                         }
 
-                        output = Path.Combine(output, $"{i}_{CleanFileName(v.Name)}.bin");
+                        output = Path.Combine(output, $"[{v.Id}]_{FileTools.CleanFileName(v.Name)}.bin");
                         File.WriteAllBytes(output, v.RawData);
                     }
                 );
-        }
-
-        /// <summary>
-        /// https://stackoverflow.com/a/7393722/2911165
-        /// </summary>
-        /// <param name="fileName"></param>
-        /// <returns></returns>
-        public static string CleanFileName(string fileName)
-        {
-            return Path.GetInvalidFileNameChars()
-                       .Aggregate(fileName, (current, c) => current.Replace(c.ToString(), string.Empty));
         }
     }
 }
