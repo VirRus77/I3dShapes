@@ -76,6 +76,10 @@ namespace I3dShapes.Container
 
         public Endian Endian { get; private set; }
 
+        /// <summary>
+        /// Read all <see cref="Entity"/> in file.
+        /// </summary>
+        /// <returns>Collection <see cref="Entity"/></returns>
         public ICollection<Entity> GetEntities()
         {
             return ReadEntities(_decryptor, FilePath);
@@ -83,12 +87,10 @@ namespace I3dShapes.Container
 
         public IEnumerable<(Entity Entity, byte[] RawData)> ReadRawData(IEnumerable<Entity> entities)
         {
-            using (var stream = File.OpenRead(FilePath))
+            using var stream = File.OpenRead(FilePath);
+            foreach (var entity in entities)
             {
-                foreach (var entity in entities)
-                {
-                    yield return (Entity: entity, RawData: ReadRawData(stream, entity));
-                }
+                yield return (Entity: entity, RawData: ReadRawData(stream, entity));
             }
         }
 
@@ -132,22 +134,26 @@ namespace I3dShapes.Container
             return readHeader;
         }
 
+        /// <summary>
+        /// Read all <see cref="Entity"/> in file.
+        /// </summary>
+        /// <param name="decryptor"></param>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
         private static ICollection<Entity> ReadEntities(IDecryptor decryptor, in string fileName)
         {
-            using (var stream = File.OpenRead(fileName))
-            {
-                var header = ReadHeader(stream);
-                var endian = GetEndian(header.Version);
+            using var stream = File.OpenRead(fileName);
+            var header = ReadHeader(stream);
+            var endian = GetEndian(header.Version);
 
-                var cryptBlockIndex = 0ul;
+            var cryptBlockIndex = 0ul;
 
-                var countEntities = ReadDecryptUInt32(stream, decryptor, cryptBlockIndex, ref cryptBlockIndex, endian);
+            var countEntities = ReadDecryptUInt32(stream, decryptor, cryptBlockIndex, ref cryptBlockIndex, endian);
 
-                return Enumerable
-                       .Range(0, (int) countEntities)
-                       .Select(v => Entity.Read(stream, decryptor, ref cryptBlockIndex, endian))
-                       .ToArray();
-            }
+            return Enumerable
+                   .Range(0, (int) countEntities)
+                   .Select(v => Entity.Read(stream, decryptor, ref cryptBlockIndex, endian))
+                   .ToArray();
         }
 
         private static Endian GetEndian(in short version)
@@ -216,6 +222,8 @@ namespace I3dShapes.Container
                     return ShapeType.Type1;
                 case 2:
                     return ShapeType.Spline;
+                case 3:
+                    return ShapeType.Type3;
                 default:
                     return ShapeType.Unknown;
             }
@@ -229,6 +237,8 @@ namespace I3dShapes.Container
                     return 1;
                 case ShapeType.Spline:
                     return 2;
+                case ShapeType.Type3:
+                    return 3;
                 default:
                     return 0;
             }

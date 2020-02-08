@@ -21,6 +21,7 @@ namespace I3dShapes.Tests
                     {
                         { ShapeType.Type1, 1144 },
                         { ShapeType.Spline, 15 },
+                        { ShapeType.Type3, 4 },
                     }
                 },
                 {
@@ -28,6 +29,7 @@ namespace I3dShapes.Tests
                     {
                         { ShapeType.Type1, 1013 },
                         { ShapeType.Spline, 12 },
+                        { ShapeType.Type3, 4 },
                     }
                 },
                 {
@@ -35,6 +37,7 @@ namespace I3dShapes.Tests
                     {
                         { ShapeType.Type1, 1788 },
                         { ShapeType.Spline, 72 },
+                        { ShapeType.Type3, 0 },
                     }
                 },
                 {
@@ -42,6 +45,7 @@ namespace I3dShapes.Tests
                     {
                         { ShapeType.Type1, 2240 },
                         { ShapeType.Spline, 107 },
+                        { ShapeType.Type3, 0 },
                     }
                 }
             };
