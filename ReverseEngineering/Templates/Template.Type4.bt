@@ -1,0 +1,65 @@
+//------------------------------------------------
+//--- 010 Editor v8.0.1 Binary Template
+//
+//      File: 
+//   Authors: VirRus77
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+void Align(int mod){
+  local int pos = FTell();
+  local int newPos = ((pos+3)/4)*4;
+  if(newPos - pos != 0) {
+    byte Skip[newPos - pos] <bgcolor=0xF0F000,fgcolor=0x0000F0>;
+  }
+
+  Printf("Seed: %d -> %d\n", pos, newPos);
+}
+struct I3DTri{
+  ushort P1;
+  ushort P2;
+  ushort P3;
+};
+
+struct unkStruct7{
+  byte buffer[24];
+};
+struct unkStruct7_2{
+  byte buffer[16];
+};
+struct unkStruct7_3{
+  byte buffer[8];
+};
+
+uint nameLen <bgcolor=0x20F020>;
+char Name[nameLen] <bgcolor=0x20F0F0,fgcolor=0xF0F000>;
+Align(4);
+uint ShapeId <bgcolor=0x20F020,fgcolor=0x000000>;
+float unk1 <bgcolor=0x20F020>;
+float unk2 <bgcolor=0xF02020>;
+float unk3 <bgcolor=0x20F020>;
+float unk4 <bgcolor=0xF0F080>;
+uint unk5 <bgcolor=0xF02020>;
+uint unk6 <bgcolor=0xF02020>;
+uint unk7 <bgcolor=0xF02020>;
+ushort unk8 <bgcolor=0xF02020>;
+ushort unk8_1 <bgcolor=0xF02020>;
+uint unk9 <bgcolor=0xF02020>;
+uint unk10 <bgcolor=0xF02020>;
+uint unk11 <bgcolor=0xF02020>;
+uint unk12 <bgcolor=0xF02020>;
+ushort index[unk5] <bgcolor=0xF02080>;
+unkStruct7 unk14[unk7] <bgcolor=0x20F080>;
+unkStruct7_2 unk15[unk7] <bgcolor=0xF02080>;
+unkStruct7_3 unk16[unk7] <bgcolor=0x20F080>;
+unkStruct7_3 unk17[unk7] <bgcolor=0xF02080>;
+byte unk18[unk8_1*36] <bgcolor=0x20F080>;
+Printf("Size: %d\n", FileSize() - FTell());
+byte x[1848] <bgcolor=0xF02080>;
+//uint unk17[unk8+unk8_1] <bgcolor=0xF02080>;
+// 5068
+//byte index2[unk5/3*16] <bgcolor=0xF02080>;

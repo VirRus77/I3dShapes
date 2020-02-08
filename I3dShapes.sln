@@ -1,0 +1,65 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29728.190
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "I3dShapes", "I3dShapes\I3dShapes.csproj", "{30A1074F-45A9-43C4-87A9-43D5564D67B0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "I3dShapes.Tests", "I3dShapes.Tests\I3dShapes.Tests.csproj", "{F02C2B36-95B4-417B-A275-6D0FF8746AFC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "..\..\Core\Core\Core.csproj", "{BEB5FCF1-A194-41E6-9361-3C67D4FB94EC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ReverseEngineering", "ReverseEngineering", "{5C2EE3B0-45CA-40A0-96DE-31E7B092D149}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Templates", "Templates", "{D4162391-8C7E-4B95-9386-BC7AE75CB6CE}"
+	ProjectSection(SolutionItems) = preProject
+		ReverseEngineering\Templates\Template.i3d.shapes.bt = ReverseEngineering\Templates\Template.i3d.shapes.bt
+		ReverseEngineering\Templates\Template.Shape.Type1.bt = ReverseEngineering\Templates\Template.Shape.Type1.bt
+		ReverseEngineering\Templates\Template.Spline.Type2.bt = ReverseEngineering\Templates\Template.Spline.Type2.bt
+		ReverseEngineering\Templates\Template.Type4.bt = ReverseEngineering\Templates\Template.Type4.bt
+		ReverseEngineering\Templates\Template.Type5.bt = ReverseEngineering\Templates\Template.Type5.bt
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{30A1074F-45A9-43C4-87A9-43D5564D67B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30A1074F-45A9-43C4-87A9-43D5564D67B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30A1074F-45A9-43C4-87A9-43D5564D67B0}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{30A1074F-45A9-43C4-87A9-43D5564D67B0}.Debug|x86.Build.0 = Debug|Any CPU
+		{30A1074F-45A9-43C4-87A9-43D5564D67B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30A1074F-45A9-43C4-87A9-43D5564D67B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30A1074F-45A9-43C4-87A9-43D5564D67B0}.Release|x86.ActiveCfg = Release|Any CPU
+		{30A1074F-45A9-43C4-87A9-43D5564D67B0}.Release|x86.Build.0 = Release|Any CPU
+		{F02C2B36-95B4-417B-A275-6D0FF8746AFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F02C2B36-95B4-417B-A275-6D0FF8746AFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F02C2B36-95B4-417B-A275-6D0FF8746AFC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F02C2B36-95B4-417B-A275-6D0FF8746AFC}.Debug|x86.Build.0 = Debug|Any CPU
+		{F02C2B36-95B4-417B-A275-6D0FF8746AFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F02C2B36-95B4-417B-A275-6D0FF8746AFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F02C2B36-95B4-417B-A275-6D0FF8746AFC}.Release|x86.ActiveCfg = Release|Any CPU
+		{F02C2B36-95B4-417B-A275-6D0FF8746AFC}.Release|x86.Build.0 = Release|Any CPU
+		{BEB5FCF1-A194-41E6-9361-3C67D4FB94EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BEB5FCF1-A194-41E6-9361-3C67D4FB94EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BEB5FCF1-A194-41E6-9361-3C67D4FB94EC}.Debug|x86.ActiveCfg = Debug|x86
+		{BEB5FCF1-A194-41E6-9361-3C67D4FB94EC}.Debug|x86.Build.0 = Debug|x86
+		{BEB5FCF1-A194-41E6-9361-3C67D4FB94EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BEB5FCF1-A194-41E6-9361-3C67D4FB94EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BEB5FCF1-A194-41E6-9361-3C67D4FB94EC}.Release|x86.ActiveCfg = Release|x86
+		{BEB5FCF1-A194-41E6-9361-3C67D4FB94EC}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D4162391-8C7E-4B95-9386-BC7AE75CB6CE} = {5C2EE3B0-45CA-40A0-96DE-31E7B092D149}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4432CB7B-9C29-4F33-9084-72C5DFBB2897}
+	EndGlobalSection
+EndGlobal

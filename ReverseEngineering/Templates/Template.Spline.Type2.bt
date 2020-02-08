@@ -1,0 +1,33 @@
+//------------------------------------------------
+//--- 010 Editor v8.0.1 Binary Template
+//
+//      File: 
+//   Authors: VirRus77
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+void Align(int mod){
+  local int pos = FTell();
+  local int newPos = ((pos+3)/4)*4;
+  FSeek(newPos);
+  Printf("Seed: %d -> %d\n", pos, newPos);
+}
+
+uint nameLen;
+char Name[nameLen];
+Align(4);
+
+struct Point{
+  float x;
+  float y;
+  float z;
+};
+
+uint ShapeId;
+byte unknowFlags[4];
+uint PointCount;
+Point Points[PointCount];
