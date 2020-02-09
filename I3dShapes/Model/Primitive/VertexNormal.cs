@@ -9,8 +9,19 @@ namespace I3dShapes.Model.Primitive
             Load(reader);
         }
 
+        /// <summary>
+        /// Coordinate X
+        /// </summary>
         public float X { get; private set; }
+
+        /// <summary>
+        /// Coordinate Y
+        /// </summary>
         public float Y { get; private set; }
+
+        /// <summary>
+        /// Coordinate Z
+        /// </summary>
         public float Z { get; private set; }
 
         private void Load(BinaryReader reader)

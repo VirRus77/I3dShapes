@@ -12,8 +12,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Templates", "Templates", "{D4162391-8C7E-4B95-9386-BC7AE75CB6CE}"
 	ProjectSection(SolutionItems) = preProject
 		ReverseEngineering\Templates\Template.i3d.shapes.bt = ReverseEngineering\Templates\Template.i3d.shapes.bt
+		ReverseEngineering\Templates\Template.Shape.Attach.tm.bt = ReverseEngineering\Templates\Template.Shape.Attach.tm.bt
 		ReverseEngineering\Templates\Template.Shape.Type1.bt = ReverseEngineering\Templates\Template.Shape.Type1.bt
 		ReverseEngineering\Templates\Template.Spline.Type2.bt = ReverseEngineering\Templates\Template.Spline.Type2.bt
+		ReverseEngineering\Templates\Template.Type3.bt = ReverseEngineering\Templates\Template.Type3.bt
 		ReverseEngineering\Templates\Template.Type4.bt = ReverseEngineering\Templates\Template.Type4.bt
 		ReverseEngineering\Templates\Template.Type5.bt = ReverseEngineering\Templates\Template.Type5.bt
 	EndProjectSection

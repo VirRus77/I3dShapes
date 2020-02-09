@@ -2,6 +2,9 @@
 
 namespace I3dShapes.Model
 {
+    /// <summary>
+    /// Base shape object.
+    /// </summary>
     public abstract class ShapeObject : IShapeObject
     {
         protected ShapeObject(ShapeType type)

@@ -3,12 +3,12 @@
 //
 //      File: 
 //   Authors: Sotin Nikoaly aka VirRus77
-//   Version: 
+//   Version: 1.0
 //   Purpose: 
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
-//   History: 
+//   History: 02.02.2020 - Create
 //------------------------------------------------
 
 struct I3DTriShort{
@@ -158,8 +158,8 @@ typedef struct {
     uint VertexNormal: 1 <bgcolor=0x20F0F0>;
     uint TextureCoordinate: 1 <bgcolor=0xF08080>;
     uint TextureCoordinate2: 1 <bgcolor=0x20F080>;
-    uint Flag_4: 1 <bgcolor=0x20F0F0>;
-    uint Flag_5: 1 <bgcolor=0xF08080>;
+    uint TextureCoordinates3: 1 <bgcolor=0x20F0F0>;
+    uint TextureCoordinates4: 1 <bgcolor=0xF08080>;
     uint Flag_6: 1 <bgcolor=0x20F080>;
     uint Flag_7: 1 <bgcolor=0x20F0F0>;
     uint Flag_8: 1 <bgcolor=0xF08080>;
@@ -215,8 +215,8 @@ typedef struct {
     uint Flag_8: 1 <bgcolor=0xF08080>;
     uint Flag_7: 1 <bgcolor=0x20F0F0>;
     uint Flag_6: 1 <bgcolor=0x20F080>;
-    uint Flag_5: 1 <bgcolor=0xF08080>;
-    uint Flag_4: 1 <bgcolor=0x20F0F0>;
+    uint TextureCoordinates4: 1 <bgcolor=0xF08080>;
+    uint TextureCoordinates3: 1 <bgcolor=0x20F0F0>;
     uint TextureCoordinate2: 1 <bgcolor=0x20F080>;
     uint TextureCoordinate: 1 <bgcolor=0xF08080>;
     uint VertexNormal: 1 <bgcolor=0x20F0F0>;
@@ -231,8 +231,8 @@ string FlagComment7(UnknownFlag7 &flag){
     flag.VertexNormal,
     flag.TextureCoordinate,
     flag.TextureCoordinate2,
-    flag.Flag_4,
-    flag.Flag_5,
+    flag.TextureCoordinates3,
+    flag.TextureCoordinates4,
     flag.Flag_6,
     flag.Flag_7,
     flag.Flag_8,
@@ -264,10 +264,10 @@ string FlagComment7(UnknownFlag7 &flag){
   return  print;
 }
 
-// Comment on little
+// Set version
+local int version = 3;
 
 local int littleInt = 1;
-local int version = 3;
 if(version < 4) {
   BigEndian();
   littleInt = 0;
@@ -328,24 +328,16 @@ if (Unknown7.Flag_8) {
 if (Unknown7.TextureCoordinate) {
     TextureCoordinateUV TextureCoordinates[Vertices] <bgcolor=0x20F0F0,fgcolor=0x20F0F0,comment=TextureCoordinateUVComment>;
 }
-/*
-if(version < 4) {
-    Printf("Flag %d", Unknown7.Flag_5);
-    if (Unknown7.Flag_5) {
-        TextureCoordinateUV TextureCoordinates2[Vertices] <bgcolor=0x20F0F0,fgcolor=0x20F0F0,comment=TextureCoordinateUVComment>;
-    }
-}
-*/
 
 if (Unknown7.TextureCoordinate2) {
   TextureCoordinateUV TextureCoordinates2[Vertices] <bgcolor=0xF08080,fgcolor=0xF08080>;
 }
 
-if (Unknown7.Flag_4) {
+if (Unknown7.TextureCoordinates3) {
   TextureCoordinateUV TextureCoordinates3[Vertices]<bgcolor=0x20F0F0,fgcolor=0xF080F0>;
 }
 
-if (Unknown7.Flag_5) {
+if (Unknown7.TextureCoordinates4) {
   TextureCoordinateUV TextureCoordinates4[Vertices]<bgcolor=0x20F0F0,fgcolor=0xF080F0>;
 }
 

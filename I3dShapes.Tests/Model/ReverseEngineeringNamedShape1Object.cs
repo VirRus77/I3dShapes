@@ -7,6 +7,9 @@ using I3dShapes.Tools;
 
 namespace I3dShapes.Tests.Model
 {
+    /// <summary>
+    /// Raw shape contains <see cref="ShapeType1.ContainsFlags"/> as string.
+    /// </summary>
     public class ReverseEngineeringNamedShape1Object : RawNamedShapeObject
     {
         public ReverseEngineeringNamedShape1Object(uint rawType, BinaryReader reader, Endian endian)
@@ -15,6 +18,9 @@ namespace I3dShapes.Tests.Model
             Load();
         }
 
+        /// <summary>
+        /// <see cref="ShapeType1.ContainsFlags"/>
+        /// </summary>
         public string Flag { get; private set; }
 
         private void Load()

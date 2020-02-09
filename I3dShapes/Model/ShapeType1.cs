@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using I3dShapes.Container;
 using I3dShapes.Exceptions;
 using I3dShapes.Model.Primitive;
 using I3dShapes.Tools.Extensions;
@@ -64,7 +65,12 @@ namespace I3dShapes.Model
         public int VertexCount { get; private set; }
         public int Unknown6 { get; private set; }
         public int Vertices { get; private set; }
+
+        /// <summary>
+        /// Contains values.
+        /// </summary>
         public ContainsFlag ContainsFlags { get; private set; }
+
         public int Unknown8 { get; private set; }
         public int UvCount { get; private set; }
         public int Unknown9 { get; private set; }
@@ -74,45 +80,56 @@ namespace I3dShapes.Model
         public ICollection<PointVector> PointVectors { get; private set; }
 
         /// <summary>
-        /// Set if <see cref="Unknown6"/> = 2. Size 4 UInt32.
+        /// Set if <see cref="Unknown6"/> = 2.
+        /// Size 4 UInt32.
         /// </summary>
         public ICollection<uint> UnknownStruct6 { get; private set; }
 
         /// <summary>
-        /// Set if <see cref="ContainsFlag.VertexNormal"> set. Size = <see cref="Vertices"/>
+        /// Set if <see cref="ContainsFlag.VertexNormal"> set.
+        /// Size = <see cref="Vertices"/>
         /// </summary>
         public ICollection<VertexNormal> VertexNormals { get; private set; }
 
         /// <summary>
-        /// Set if <see cref="ContainsFlag.Flag8"> set. Size = 4 * <see cref="Vertices"/>
+        /// Set if <see cref="ContainsFlag.Flag8"> set and <see cref="FileContainer.Version"/> >= 4.
+        /// Size = 4 * <see cref="Vertices"/>
         /// </summary>
         public ICollection<float> UnknownData8 { get; private set; }
 
         /// <summary>
-        /// Set if <see cref="ContainsFlag.TextureCoordinate"> set. Size = <see cref="Vertices"/>
+        /// Set if <see cref="ContainsFlag.TextureCoordinate"> set.
+        /// Size = <see cref="Vertices"/>
         /// </summary>
         public ICollection<TextureCoordinateUV> TextureCoordinates { get; private set; }
 
         /// <summary>
-        /// Set if <see cref="ContainsFlag.TextureCoordinate2"> set. Size = <see cref="Vertices"/>
+        /// Set if <see cref="ContainsFlag.TextureCoordinate2"> set.
+        /// Size = <see cref="Vertices"/>
         /// </summary>
         public ICollection<TextureCoordinateUV> TextureCoordinates2 { get; private set; }
 
         /// <summary>
-        /// Set if <see cref="ContainsFlag.TextureCoordinate3"> set. Size = <see cref="Vertices"/>
+        /// Set if <see cref="ContainsFlag.TextureCoordinate3"> set.
+        /// Size = <see cref="Vertices"/>
         /// </summary>
         public ICollection<TextureCoordinateUV> TextureCoordinates3 { get; private set; }
 
         /// <summary>
-        /// Set if <see cref="ContainsFlag.TextureCoordinate4"> set. Size = <see cref="Vertices"/>
+        /// Set if <see cref="ContainsFlag.TextureCoordinate4"> set.
+        /// Size = <see cref="Vertices"/>
         /// </summary>
         public ICollection<TextureCoordinateUV> TextureCoordinates4 { get; private set; }
 
         /// <summary>
-        /// Set if <see cref="ContainsFlag.Flag6"> set. Size = 4 * <see cref="Vertices"/>
+        /// Set if <see cref="ContainsFlag.Flag6"> set.
+        /// Size = 4 * <see cref="Vertices"/>
         /// </summary>
         public ICollection<float> UnknownData6 { get; private set; }
 
+        /// <summary>
+        /// Addition content.
+        /// </summary>
         public Additions Addition { get; set; }
 
         private new void Load(BinaryReader reader)

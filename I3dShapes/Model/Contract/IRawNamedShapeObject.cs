@@ -3,7 +3,7 @@
     public interface IRawNamedShapeObject : IRawShapeObject, INamedShapeObject
     {
         /// <summary>
-        /// Position skip Id and Name
+        /// Position skip Id and Name (Align 4).
         /// </summary>
         long ContentPosition { get; }
     }

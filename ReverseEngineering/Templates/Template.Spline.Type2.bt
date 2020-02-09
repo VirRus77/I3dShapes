@@ -2,13 +2,13 @@
 //--- 010 Editor v8.0.1 Binary Template
 //
 //      File: 
-//   Authors: VirRus77
-//   Version: 
+//   Authors: Sotin Nikoaly aka VirRus77
+//   Version: 1.0
 //   Purpose: 
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
-//   History: 
+//   History: 02.02.2020 - Create
 //------------------------------------------------
 
 struct Point{
