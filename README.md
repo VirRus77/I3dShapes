@@ -3,17 +3,40 @@ Library used for extracting the binary .i3d.shapes files used by the GIANTS engi
 * (Based on https://github.com/Donkie/I3DShapesTool)
 
 # Summary
-1. Type 1 shape shaping reverse engineering (for FS 2017 and FS 2019).
-2. Reverse engineering of shape 2 type.
+1. Reverse engineering of shape 1, 2 and 3 type.
 
 # Usage
+For unloading parsed objects:
 ```C#
-var container = new FileContainer(shapeFilePath);
-var entities = container.GetEntities();
+var shapeFile = new ShapeFile(shapeFilePath);
+
 // Load all known types
-var shapes = container.LoadKnowTypes(entities);
+var shapes = shapeFile.ReadKnowTypes();
+
 // OR Custom shape types
-shapes = container.LoadKnowTypes(entities, new[]{ ShapeType.Type1 });
+shapes = container.ReadKnowTypes(ShapeType.Type1, ShapeType.Spline, ShapeType.NavMesh);
 
 var shapesType1 = shapes.OfType<ShapeType1>().ToArray();
+```
+
+For unloading raw objects:
+```C#
+var shapeFile = new ShapeFile(shapeFilePath);
+
+// Load all types
+var shapes = shapeFile.ReadRawShape();
+
+// OR Custom shape types
+shapes = shapeFile.ReadRawShape(1, 2, 3);
+```
+
+For unloading named raw objects:
+```C#
+var shapeFile = new ShapeFile(shapeFilePath);
+
+// Load all types
+var shapes = shapeFile.ReadRawNamedShape();
+
+// OR Custom shape types
+shapes = shapeFile.ReadRawNamedShape(1, 2, 3);
 ```

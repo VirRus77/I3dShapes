@@ -8,17 +8,17 @@ namespace I3dShapes.Tools.Extensions
         public static byte[] Read(this Stream stream, in int count)
         {
             var buffer = new byte[count];
-            var readed = 0;
+            var offset = 0;
             do
             {
-                var read = stream.Read(buffer, readed, count - readed);
+                var read = stream.Read(buffer, offset, count - offset);
                 if (read == 0)
                 {
                     throw new EndOfStreamException();
                 }
 
-                readed += read;
-            } while (readed < count);
+                offset += read;
+            } while (offset < count);
 
             return buffer;
         }

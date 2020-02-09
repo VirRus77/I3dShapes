@@ -2,7 +2,7 @@
 //--- 010 Editor v8.0.1 Binary Template
 //
 //      File: 
-//   Authors: VirRus77
+//   Authors: Sotin Nikoaly aka VirRus77
 //   Version: 
 //   Purpose: 
 //  Category: 
@@ -40,16 +40,88 @@ struct UnkFloat3{
   float unk3;
 };
 
+struct VertexNormals{
+  float x;
+  float y;
+  float z;
+};
+
+
+string VertexNormalsComment(VertexNormals &value) {
+  string print;
+  SPrintf(print, "vn");
+  if((value.x - (int)value.x) == 0) {
+    SPrintf(print, "%s %d", print, (int)value.x);
+  } else {
+    if(Abs(value.x - (int)value.x) < 0.001){
+        SPrintf(print, "%s %e", print, value.x);
+      }else{
+        SPrintf(print, "%s %f", print, value.x);
+      }
+  }
+  if((value.y - (int)value.y) == 0) {
+    SPrintf(print, "%s %d", print, (int)value.y);
+  } else {
+      if(Abs(value.y - (int)value.y) < 0.001){
+        SPrintf(print, "%s %e", print, value.y);
+      }else{
+        SPrintf(print, "%s %f", print, value.y);
+      }
+  }
+  if((value.z - (int)value.z) == 0) {
+    SPrintf(print, "%s %d", print, (int)value.z);
+  } else {
+     if(Abs(value.z - (int)value.z) < 0.001){
+        SPrintf(print, "%s %e", print, value.z);
+      }else{
+        SPrintf(print, "%s %f", print, value.z);
+      }
+  }
+  return print;
+}
+
+struct TextureCoordinateUV {
+  float U;
+  float V;
+};
+
+struct Align(int mod){
+  local int pos = FTell();
+  local int newPos = ((pos+3)/4)*4;
+  if(newPos - pos != 0) {
+    byte skip[newPos - pos] <bgcolor=0x808080,fgcolor=0x0000F0>;
+  }
+  //FSeek(newPos);
+  Printf("Seed: %d -> %d\n", pos, newPos);
+};
+
+string TextureCoordinateUVComment(TextureCoordinateUV &texture) {
+  string print;
+  SPrintf(print, "vt");
+  if((texture.U - (int)texture.U) == 0) {
+    SPrintf(print, "%s %d", print, (int)texture.U);
+  } else {
+    SPrintf(print, "%s %f", print, texture.U);
+  }
+  if((texture.V - (int)texture.V) == 0) {
+    SPrintf(print, "%s %d", print, (int)texture.V);
+  } else {
+    SPrintf(print, "%s %f", print, texture.V);
+  }
+  //SPrintf(print, "vt %f %f", texture.U, texture.V);
+  return print;
+}
+/*
 void Align(int mod){
   local int pos = FTell();
   local int newPos = ((pos+3)/4)*4;
   if(newPos - pos != 0) {
-    byte Skip[newPos - pos] <bgcolor=0x808080,fgcolor=0x0000F0>;
+    byte skip[newPos - pos] <bgcolor=0x808080,fgcolor=0x0000F0>;
   }
   //FSeek(newPos);
   Printf("Seed: %d -> %d\n", pos, newPos);
 }
-
+*/
 struct SizedContent {
   int size;
   byte Content[size];
@@ -83,9 +155,9 @@ struct ShortFlag {
 
 typedef struct {
   if(IsLittleEndian()) {
-    uint Flag_1: 1 <bgcolor=0x20F0F0>;
-    uint Flag_2: 1 <bgcolor=0xF08080>;
-    uint Flag_3: 1 <bgcolor=0x20F080>;
+    uint VertexNormal: 1 <bgcolor=0x20F0F0>;
+    uint TextureCoordinate: 1 <bgcolor=0xF08080>;
+    uint TextureCoordinate2: 1 <bgcolor=0x20F080>;
     uint Flag_4: 1 <bgcolor=0x20F0F0>;
     uint Flag_5: 1 <bgcolor=0xF08080>;
     uint Flag_6: 1 <bgcolor=0x20F080>;
@@ -145,9 +217,9 @@ typedef struct {
     uint Flag_6: 1 <bgcolor=0x20F080>;
     uint Flag_5: 1 <bgcolor=0xF08080>;
     uint Flag_4: 1 <bgcolor=0x20F0F0>;
-    uint Flag_3: 1 <bgcolor=0x20F080>;
-    uint Flag_2: 1 <bgcolor=0xF08080>;
-    uint Flag_1: 1 <bgcolor=0x20F0F0>;
+    uint TextureCoordinate2: 1 <bgcolor=0x20F080>;
+    uint TextureCoordinate: 1 <bgcolor=0xF08080>;
+    uint VertexNormal: 1 <bgcolor=0x20F0F0>;
   }
 } UnknownFlag7 ;
 
@@ -156,9 +228,9 @@ string FlagComment7(UnknownFlag7 &flag){
   SPrintf(
     print,
     "%d %d %d %d %d %d %d %d | %d %d %d %d %d %d %d %d | %d %d %d %d %d %d %d %d | %d %d %d %d %d %d %d %d",
-    flag.Flag_1,
-    flag.Flag_2,
-    flag.Flag_3,
+    flag.VertexNormal,
+    flag.TextureCoordinate,
+    flag.TextureCoordinate2,
     flag.Flag_4,
     flag.Flag_5,
     flag.Flag_6,
@@ -193,18 +265,25 @@ string FlagComment7(UnknownFlag7 &flag){
 }
 
 // Comment on little
-// BigEndian(); 
+
+local int littleInt = 1;
+local int version = 3;
+if(version < 4) {
+  BigEndian();
+  littleInt = 0;
+}
 
 uint nameLen;
 char Name[nameLen] <fgcolor=0xF0F000>;
-Align(4);
+Align Align1(4) <optimize=false>;
+
 // 0x20F080 0x20F0F0 0xF08080
 uint ShapeId <bgcolor=0x20F080,fgcolor=0x800000>;
 
-float BoundingVolumeX  <bgcolor=0x20F0F0>;
-float BoundingVolumeY  <bgcolor=0xF08080>;
-float BoundingVolumeZ  <bgcolor=0x20F080>;
-float BoundingVolumeR  <bgcolor=0x20F0F0>;
+float BoundingVolumeCenterX  <bgcolor=0x20F0F0>;
+float BoundingVolumeCenterY  <bgcolor=0xF08080>;
+float BoundingVolumeCenterZ  <bgcolor=0x20F080>;
+float BoundingVolumeRadius  <bgcolor=0x20F0F0>;
 int VertexCount <bgcolor=0xF08080>;
 int Unknown6 <bgcolor=0x20F080>;
 int Vertices <bgcolor=0x20F0F0>;
@@ -213,6 +292,7 @@ UnknownFlag7 Unknown7 <comment=FlagComment7>;
 
 int Unknown8 <bgcolor=0x20F080>;
 int UvCount <bgcolor=0x20F0F0>;
+
 int Unknown9 <bgcolor=0xF08080>;
 int VertexCount2 <bgcolor=0x20F080>;
 
@@ -224,39 +304,61 @@ if(Unknown6 == 2){
 }
 
 if(Vertices > 0xFFFF){
-  I3DTriInt Triangles[VertexCount / 3] <bgcolor=0x20F0F0>;
+  I3DTriInt PointIndexes[VertexCount / 3] <bgcolor=0x20F0F0>;
 } else {
-  I3DTriShort Triangles[VertexCount / 3] <bgcolor=0x20F0F0>;
+  I3DTriShort PointIndexes[VertexCount / 3] <bgcolor=0x20F0F0>;
 }
-Align(4);
-I3DVector Positions[Vertices] <bgcolor=0xF08080>;
 
-if (Unknown7.Flag_1) {
-    float UNK_8_1 [Vertices * 3] <bgcolor=0x20F080,fgcolor=0x20F080>;
+Align Align2(4) <optimize=false>;
+
+I3DVector PointVectors[Vertices] <bgcolor=0xF08080>;
+
+if (Unknown7.VertexNormal) {
+    VertexNormals VertexNormal [Vertices] <bgcolor=0x20F080,fgcolor=0x20F080,comment=VertexNormalsComment>;
 }
+
 if (Unknown7.Flag_8) {
+  if(version >= 4) {
     float UNK_8_82[Vertices * 4] <bgcolor=0x20F0F0,fgcolor=0xF080F0>;
-}
-if (Unknown7.Flag_2) {
-    float UNK_8_22[Vertices * 2] <bgcolor=0x20F0F0,fgcolor=0x20F0F0>;
+  } else {
+    //float UNK_8_82[Vertices * 2] <bgcolor=0x20F0F0,fgcolor=0xF080F0>;
+  }
 }
 
-if (Unknown7.Flag_3) {
-  float UNK_8_3 [Vertices * 2]<bgcolor=0xF08080,fgcolor=0xF08080>;
+if (Unknown7.TextureCoordinate) {
+    TextureCoordinateUV TextureCoordinates[Vertices] <bgcolor=0x20F0F0,fgcolor=0x20F0F0,comment=TextureCoordinateUVComment>;
+}
+/*
+if(version < 4) {
+    Printf("Flag %d", Unknown7.Flag_5);
+    if (Unknown7.Flag_5) {
+        TextureCoordinateUV TextureCoordinates2[Vertices] <bgcolor=0x20F0F0,fgcolor=0x20F0F0,comment=TextureCoordinateUVComment>;
+    }
+}
+*/
+
+if (Unknown7.TextureCoordinate2) {
+  TextureCoordinateUV TextureCoordinates2[Vertices] <bgcolor=0xF08080,fgcolor=0xF08080>;
 }
 
 if (Unknown7.Flag_4) {
-  float UNK_8_4 [Vertices * 2]<bgcolor=0x20F0F0,fgcolor=0xF080F0>;
+  TextureCoordinateUV TextureCoordinates3[Vertices]<bgcolor=0x20F0F0,fgcolor=0xF080F0>;
+}
+
+if (Unknown7.Flag_5) {
+  TextureCoordinateUV TextureCoordinates4[Vertices]<bgcolor=0x20F0F0,fgcolor=0xF080F0>;
 }
 
 if (Unknown7.Flag_6) {
   float UNK_8_6[Vertices * 4] <bgcolor=0x20F080,fgcolor=0x20F080>;
 }
+
 /*
 if(Unknown7.Flag_8) {
   float Unk2[UvCount*4]<bgcolor=0xE000F0>;
 }
 */
+
 
 //I3DUV UVs[UvCount] <bgcolor=0x20F0F0>;
 

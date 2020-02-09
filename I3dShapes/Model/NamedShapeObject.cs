@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Text;
 using I3dShapes.Exceptions;
+using I3dShapes.Model.Contract;
 using I3dShapes.Tools.Extensions;
 
 namespace I3dShapes.Model
@@ -13,29 +14,29 @@ namespace I3dShapes.Model
         {
         }
 
-        /// <summary>
-        /// Shame name
-        /// </summary>
-        public string Name { get; private set; }
-
-        /// <summary>
-        /// Shape Id
-        /// </summary>
+        /// <inheritdoc />
         public uint Id { get; private set; }
+
+        /// <inheritdoc />
+        public string Name { get; private set; }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="reader"></param>
         /// <exception cref="UnknownFormatShapeException"></exception>
-        protected void Load(BinaryReader reader)
+        protected void Load(BinaryReader reader, bool isAlign = true)
         {
             var nameLength = reader.ReadInt32();
             Name = Encoding.ASCII.GetString(reader.ReadBytes(nameLength));
-            var align = reader.Align(4);
-            if (align.Any(v => v != 0))
+
+            if (isAlign)
             {
-                throw new UnknownFormatShapeException();
+                var align = reader.Align(4);
+                if (align.Any(v => v != 0))
+                {
+                    throw new UnknownFormatShapeException();
+                }
             }
 
             Id = reader.ReadUInt32();

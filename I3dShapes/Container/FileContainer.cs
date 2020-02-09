@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using I3dShapes.Model;
+using I3dShapes.Model.Contract;
 using I3dShapes.Tools;
 using I3dShapes.Tools.Extensions;
 using Microsoft.Extensions.Logging;
@@ -11,30 +12,6 @@ namespace I3dShapes.Container
 {
     public class FileContainer
     {
-        public static readonly ShapeType[] AllKnownTypes = new[]
-        {
-            ShapeType.Type1,
-            ShapeType.Spline,
-            ShapeType.Type3,
-        };
-
-        /// <summary>
-        /// Loaders known types;
-        /// </summary>
-        private readonly static Dictionary<ShapeType, Func<BinaryReader, IShapeObject>> KnownTypeToLoader =
-            new Dictionary<ShapeType, Func<BinaryReader, IShapeObject>>
-            {
-                {
-                    ShapeType.Type1, reader => new ShapeType1(reader)
-                },
-                {
-                    ShapeType.Spline, reader => new Spline(reader)
-                },
-                {
-                    ShapeType.Type3, reader => new ShapeType3(reader)
-                },
-            };
-
         private readonly ILogger _logger;
         private readonly IDecryptor _decryptor;
 
@@ -70,11 +47,16 @@ namespace I3dShapes.Container
             Endian = GetEndian(Header.Version);
         }
 
+        /// <summary>
+        /// File path.
+        /// </summary>
         public string FilePath { get; }
 
         public FileHeader Header { get; private set; }
 
         public Endian Endian { get; private set; }
+
+        public short Version => Header.Version;
 
         /// <summary>
         /// Read all <see cref="Entity"/> in file.
@@ -96,16 +78,38 @@ namespace I3dShapes.Container
 
         public byte[] ReadRawData(Entity entity)
         {
-            using (var stream = File.OpenRead(FilePath))
+            using var stream = File.OpenRead(FilePath);
+            return ReadRawData(stream, entity);
+        }
+
+        internal static uint ReadDecryptUInt32(in Stream stream, in IDecryptor decryptor, in ulong cryptBlockIndex, in Endian endian)
+        {
+            var nextCryptBlockIndex = 0ul;
+            return ReadDecryptUInt32(stream, decryptor, cryptBlockIndex, ref nextCryptBlockIndex, endian);
+        }
+
+        internal static uint ReadDecryptUInt32(
+            in Stream stream,
+            in IDecryptor decryptor,
+            in ulong cryptBlockIndex,
+            ref ulong nextCryptBlockIndex,
+            in Endian endian
+        )
+        {
+            var buffer = stream.Read(sizeof(int));
+            decryptor.Decrypt(buffer, cryptBlockIndex, ref nextCryptBlockIndex);
+            if (endian == Endian.Big)
             {
-                return ReadRawData(stream, entity);
+                Array.Reverse(buffer);
             }
+
+            return BitConverter.ToUInt32(buffer, 0);
         }
 
         private byte[] ReadRawData(Stream stream, Entity entity)
         {
             stream.Seek(entity.OffsetRawBlock, SeekOrigin.Begin);
-            var buffer = stream.Read((int) entity.Size);
+            var buffer = stream.Read((int)entity.Size);
             _decryptor.Decrypt(buffer, entity.DecryptIndexBlock);
             return buffer;
         }
@@ -151,7 +155,7 @@ namespace I3dShapes.Container
             var countEntities = ReadDecryptUInt32(stream, decryptor, cryptBlockIndex, ref cryptBlockIndex, endian);
 
             return Enumerable
-                   .Range(0, (int) countEntities)
+                   .Range(0, (int)countEntities)
                    .Select(v => Entity.Read(stream, decryptor, ref cryptBlockIndex, endian))
                    .ToArray();
         }
@@ -161,87 +165,9 @@ namespace I3dShapes.Container
             return version >= 4 ? Endian.Little : Endian.Big;
         }
 
-        internal static uint ReadDecryptUInt32(in Stream stream, in IDecryptor decryptor, in ulong cryptBlockIndex, in Endian endian)
-        {
-            var nextCryptBlockIndex = 0ul;
-            return ReadDecryptUInt32(stream, decryptor, cryptBlockIndex, ref nextCryptBlockIndex, endian);
-        }
-
-        internal static uint ReadDecryptUInt32(
-            in Stream stream,
-            in IDecryptor decryptor,
-            in ulong cryptBlockIndex,
-            ref ulong nextCryptBlockIndex,
-            in Endian endian
-        )
-        {
-            var buffer = stream.Read(sizeof(int));
-            decryptor.Decrypt(buffer, cryptBlockIndex, ref nextCryptBlockIndex);
-            if (endian == Endian.Big)
-            {
-                Array.Reverse(buffer);
-            }
-
-            return BitConverter.ToUInt32(buffer, 0);
-        }
-
         internal static ulong RoundUp(in ulong value, in ulong toNearest)
         {
             return (value + toNearest - 1) / toNearest;
-        }
-
-        public ICollection<IShapeObject> LoadKnowTypes(ICollection<Entity> entities)
-        {
-            return LoadKnowTypes(entities, AllKnownTypes);
-        }
-        public ICollection<IShapeObject> LoadKnowTypes(ICollection<Entity> entities, params ShapeType[] loadTypes)
-        {
-            var loadedRawTypes = loadTypes
-                                 .Select(v => ShapeTypeToRawType(v))
-                                 .Distinct()
-                                 .Where(v => v != 0)
-                                 .ToArray();
-
-            return ReadRawData(entities.Where(v => loadedRawTypes.Contains(v.Type)))
-                .Select(v => LoadKnowType(v, Endian))
-                .ToArray();
-        }
-
-        private static IShapeObject LoadKnowType((Entity Entity, byte[] RawData) entity, Endian endian)
-        {
-            using var stream = new MemoryStream(entity.RawData);
-            using var binaryRead = new EndianBinaryReader(stream, endian);
-            return KnownTypeToLoader[RawTypeToShapeType(entity.Entity.Type)](binaryRead);
-        }
-
-        private static ShapeType RawTypeToShapeType(uint rawType)
-        {
-            switch (rawType)
-            {
-                case 1:
-                    return ShapeType.Type1;
-                case 2:
-                    return ShapeType.Spline;
-                case 3:
-                    return ShapeType.Type3;
-                default:
-                    return ShapeType.Unknown;
-            }
-        }
-
-        private static uint ShapeTypeToRawType(ShapeType shapeType)
-        {
-            switch (shapeType)
-            {
-                case ShapeType.Type1:
-                    return 1;
-                case ShapeType.Spline:
-                    return 2;
-                case ShapeType.Type3:
-                    return 3;
-                default:
-                    return 0;
-            }
         }
     }
 }

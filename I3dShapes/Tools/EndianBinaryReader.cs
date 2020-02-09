@@ -11,25 +11,25 @@ namespace I3dShapes.Tools
     {
         private readonly Endian _endian;
 
-        public EndianBinaryReader(Stream input, Endian endian = Endian.Little)
+        public EndianBinaryReader(Stream input, in Endian endian = Endian.Little)
             : base(input)
         {
             _endian = endian;
         }
 
-        public EndianBinaryReader(Stream input, Encoding encoding, Endian endian = Endian.Little)
+        public EndianBinaryReader(Stream input, Encoding encoding, in Endian endian = Endian.Little)
             : base(input, encoding)
         {
             _endian = endian;
         }
 
-        public EndianBinaryReader(Stream input, Encoding encoding, bool leaveOpen, Endian endian = Endian.Little)
+        public EndianBinaryReader(Stream input, Encoding encoding, bool leaveOpen, in Endian endian = Endian.Little)
             : base(input, encoding, leaveOpen)
         {
             _endian = endian;
         }
 
-        public byte[] Read(int byteCount)
+        public byte[] Read(in int byteCount)
         {
             var buffer = new byte[byteCount];
             var read = 0;
@@ -91,7 +91,7 @@ namespace I3dShapes.Tools
         public override Double ReadDouble() => BitConverter.ToDouble(Swipe(Read(sizeof(Double)), _endian), 0);
         // ReSharper restore BuiltInTypeReferenceStyle
 
-        private static byte[] Swipe(byte[] read, Endian endian)
+        private static byte[] Swipe(byte[] read, in Endian endian)
         {
             if (BitConverter.IsLittleEndian && endian == Endian.Big)
             {

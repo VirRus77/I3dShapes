@@ -17,6 +17,22 @@ namespace I3dShapes.Tests
             new Dictionary<(FarmSimulatorVersion, string), Dictionary<ShapeType, int>>
             {
                 {
+                    (FarmSimulatorVersion.FarmingSimulator2015, "map01.i3d.shapes"), new Dictionary<ShapeType, int>
+                    {
+                        { ShapeType.Type1, 1155 },
+                        { ShapeType.Spline, 26 },
+                        { ShapeType.NavMesh, 3 },
+                    }
+                },
+                {
+                    (FarmSimulatorVersion.FarmingSimulator2015, "map02.i3d.shapes"), new Dictionary<ShapeType, int>
+                    {
+                        { ShapeType.Type1, 833 },
+                        { ShapeType.Spline, 21 },
+                        { ShapeType.NavMesh, 3 },
+                    }
+                },
+                {
                     (FarmSimulatorVersion.FarmingSimulator2017, "map01.i3d.shapes"), new Dictionary<ShapeType, int>
                     {
                         { ShapeType.Type1, 1144 },
@@ -51,8 +67,8 @@ namespace I3dShapes.Tests
             };
 
         [TestMethod]
-        //[DataRow(FarmSimulatorVersion.FarmingSimulator2015, "map01.i3d.shapes")]
-        //[DataRow(FarmSimulatorVersion.FarmingSimulator2015, "map02.i3d.shapes")]
+        [DataRow(FarmSimulatorVersion.FarmingSimulator2015, "map01.i3d.shapes")]
+        [DataRow(FarmSimulatorVersion.FarmingSimulator2015, "map02.i3d.shapes")]
         [DataRow(FarmSimulatorVersion.FarmingSimulator2017, "map01.i3d.shapes")]
         [DataRow(FarmSimulatorVersion.FarmingSimulator2017, "map02.i3d.shapes")]
         [DataRow(FarmSimulatorVersion.FarmingSimulator2019, "mapDE.i3d.shapes")]
@@ -77,21 +93,19 @@ namespace I3dShapes.Tests
                 Assert.Inconclusive(message);
             }
 
-            var container = new FileContainer(mapPath);
-            var entities = container.GetEntities();
+            var shapeFile = new ShapeFile(mapPath);
             // Load all known types
-            var shapes = container.LoadKnowTypes(entities);
+            var shapes = shapeFile.ReadKnowTypes();
 
             var answer = shapes
                          .GroupBy(v => v.Type)
                          .Select(v => (v.Key, v.Count()))
                          .ToArray();
             answer
-                .ForEach(v => Assert.AreEqual(testAnswer[v.Key], v.Item2));
+                .ForEach(v => Assert.AreEqual(testAnswer[v.Key], v.Item2, $"{shapeFileName} [{v.Key}]"));
 
             // OR Custom shape types
-            shapes = container.LoadKnowTypes(
-                entities,
+            shapes = shapeFile.ReadKnowTypes(
                 new[]
                 {
                     ShapeType.Type1
@@ -99,7 +113,7 @@ namespace I3dShapes.Tests
             );
 
             answer
-                .ForEach(v => Assert.AreEqual(testAnswer[v.Key], v.Item2));
+                .ForEach(v => Assert.AreEqual(testAnswer[v.Key], v.Item2, $"{shapeFileName} [{v.Key}]"));
         }
     }
 }

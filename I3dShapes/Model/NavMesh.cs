@@ -8,10 +8,10 @@ using I3dShapes.Tools.Extensions;
 
 namespace I3dShapes.Model
 {
-    public class ShapeType3 : NamedShapeObject
+    public class NavMesh : NamedShapeObject
     {
-        public ShapeType3(BinaryReader reader)
-            : base(ShapeType.Type3)
+        public NavMesh(BinaryReader reader)
+            : base(ShapeType.NavMesh)
         {
             Load(reader);
         }

@@ -3,14 +3,18 @@
   <PropertyGroup>
     <OutputType>Library</OutputType>
 
-    <TargetFramework>netstandard2.0</TargetFramework>
-
-    <GenerateDocumentation>true</GenerateDocumentation>
+    <TargetFrameworks>netstandard1.6;netstandard2.0</TargetFrameworks>
 
     <LangVersion>latest</LangVersion>
+    <GenerateDocumentation>true</GenerateDocumentation>
   </PropertyGroup>
 
-  <ItemGroup>
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.6' ">
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="1.1.2" />
+    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.0.0" />
   </ItemGroup>
 

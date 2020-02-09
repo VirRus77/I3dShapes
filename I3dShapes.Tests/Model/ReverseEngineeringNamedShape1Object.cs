@@ -7,37 +7,19 @@ using I3dShapes.Tools;
 
 namespace I3dShapes.Tests.Model
 {
-    public class ReverseEngineeringNamedShape1Object : NamedShapeObject
+    public class ReverseEngineeringNamedShape1Object : RawNamedShapeObject
     {
-        public ReverseEngineeringNamedShape1Object(uint rawType, byte[] rawData, Endian endian)
-            : base(ShapeType.Unknown)
+        public ReverseEngineeringNamedShape1Object(uint rawType, BinaryReader reader, Endian endian)
+            : base(rawType, reader, endian)
         {
-            RawType = rawType;
-            using var stream = new MemoryStream(rawData);
-            using var reader = new EndianBinaryReader(stream, endian);
-            Load(reader);
+            Load();
         }
-
-        public ReverseEngineeringNamedShape1Object(uint rawType, BinaryReader reader)
-            : base(ShapeType.Unknown)
-        {
-            RawType = rawType;
-            Load(reader);
-        }
-
-        public uint RawType { get; }
-
-        public byte[] RawData { get; private set; }
 
         public string Flag { get; private set; }
-        public short Flag7_1 { get; private set; }
-        public short Flag7_2 { get; private set; }
 
-        private void Load(BinaryReader reader)
+        private void Load()
         {
-            base.Load(reader);
-            RawData = reader.ReadBytes((int) (reader.BaseStream.Length - reader.BaseStream.Position));
-            var flag = BitConverter.ToUInt32(RawData, 28);
+            var flag = BitConverter.ToUInt32(RawData, (int) (ContentPosition + 28));
             var bitArray = new BitArray(BitConverter.GetBytes(flag));
             Flag = string.Join(
                 "",

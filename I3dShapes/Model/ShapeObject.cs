@@ -1,4 +1,6 @@
-﻿namespace I3dShapes.Model
+﻿using I3dShapes.Model.Contract;
+
+namespace I3dShapes.Model
 {
     public abstract class ShapeObject : IShapeObject
     {

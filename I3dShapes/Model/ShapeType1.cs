@@ -10,42 +10,50 @@ namespace I3dShapes.Model
 {
     public class ShapeType1 : NamedShapeObject
     {
+        private readonly int _version;
+
+        //private bool Align => _version >= 4;
         [Flags]
-        public enum UnknownFlag : uint
+        public enum ContainsFlag : uint
         {
-            Flag1 = 0x01,
-            Flag2 = 0x02,
-            Flag3 = 0x04,
-            Flag4 = 0x08,
-            Flag5 = 0x10,
-            Flag6 = 0x20,
-            Flag7 = 0x40,
-            Flag8 = 0x80,
-            Flag9 = 0x0100,
-            Flag10 = 0x0200,
-            Flag11 = 0x0400,
-            Flag12 = 0x0800,
-            Flag13 = 0x1000,
-            Flag14 = 0x2000,
-            Flag15 = 0x4000,
-            Flag16 = 0x8000,
+            VertexNormal = 0x00000001,
+            TextureCoordinate = 0x00000002,
+            TextureCoordinate2 = 0x00000004,
+            TextureCoordinate3 = 0x00000008,
+            TextureCoordinate4 = 0x00000010,
+            Flag6 = 0x00000020,
+            Flag7 = 0x00000040,
+            Flag8 = 0x00000080,
+            Flag9 = 0x00000100,
+            Flag10 = 0x00000200,
+            Flag11 = 0x00000400,
+            Flag12 = 0x00000800,
+            Flag13 = 0x00001000,
+            Flag14 = 0x00002000,
+            Flag15 = 0x00004000,
+            Flag16 = 0x00008000,
+            Flag17 = 0x00010000,
+            Flag18 = 0x00020000,
+            Flag19 = 0x00040000,
+            Flag20 = 0x00080000,
+            Flag21 = 0x00100000,
+            Flag22 = 0x00200000,
+            Flag23 = 0x00400000,
+            Flag24 = 0x00800000,
+            Flag25 = 0x01000000,
+            Flag26 = 0x02000000,
+            Flag27 = 0x04000000,
+            Flag28 = 0x08000000,
+            Flag29 = 0x10000000,
+            Flag30 = 0x20000000,
+            Flag31 = 0x40000000,
+            Flag32 = 0x80000000,
         }
 
-        public enum UnknownFlag2 : short
-        {
-            Flag1 = 0x01,
-            Flag2 = 0x02,
-            Flag3 = 0x04,
-            Flag4 = 0x08,
-            Flag5 = 0x10,
-            Flag6 = 0x20,
-            Flag7 = 0x40,
-            Flag8 = 0x80,
-        }
-
-        public ShapeType1(BinaryReader reader)
+        public ShapeType1(BinaryReader reader, int version)
             : base(ShapeType.Type1)
         {
+            _version = version;
             Load(reader);
         }
 
@@ -56,7 +64,7 @@ namespace I3dShapes.Model
         public int VertexCount { get; private set; }
         public int Unknown6 { get; private set; }
         public int Vertices { get; private set; }
-        public UnknownFlag UnknownFlags { get; private set; }
+        public ContainsFlag ContainsFlags { get; private set; }
         public int Unknown8 { get; private set; }
         public int UvCount { get; private set; }
         public int Unknown9 { get; private set; }
@@ -71,32 +79,37 @@ namespace I3dShapes.Model
         public ICollection<uint> UnknownStruct6 { get; private set; }
 
         /// <summary>
-        /// Set if <see cref="UnknownFlag1.Flag1"> set. Size = 3 * <see cref="Vertices"/>
+        /// Set if <see cref="ContainsFlag.VertexNormal"> set. Size = <see cref="Vertices"/>
         /// </summary>
-        public ICollection<float> UnknownData1 { get; private set; }
+        public ICollection<VertexNormal> VertexNormals { get; private set; }
 
         /// <summary>
-        /// Set if <see cref="UnknownFlag1.Flag8"> set. Size = 4 * <see cref="Vertices"/>
+        /// Set if <see cref="ContainsFlag.Flag8"> set. Size = 4 * <see cref="Vertices"/>
         /// </summary>
         public ICollection<float> UnknownData8 { get; private set; }
 
         /// <summary>
-        /// Set if <see cref="UnknownFlag1.Flag2"> set. Size = 2 * <see cref="Vertices"/>
+        /// Set if <see cref="ContainsFlag.TextureCoordinate"> set. Size = <see cref="Vertices"/>
         /// </summary>
-        public ICollection<float> UnknownData2 { get; private set; }
+        public ICollection<TextureCoordinateUV> TextureCoordinates { get; private set; }
 
         /// <summary>
-        /// Set if <see cref="UnknownFlag1.Flag3"> set. Size = 2 * <see cref="Vertices"/>
+        /// Set if <see cref="ContainsFlag.TextureCoordinate2"> set. Size = <see cref="Vertices"/>
         /// </summary>
-        public ICollection<float> UnknownData3 { get; private set; }
+        public ICollection<TextureCoordinateUV> TextureCoordinates2 { get; private set; }
 
         /// <summary>
-        /// Set if <see cref="UnknownFlag1.Flag4"> set. Size = 2 * <see cref="Vertices"/>
+        /// Set if <see cref="ContainsFlag.TextureCoordinate3"> set. Size = <see cref="Vertices"/>
         /// </summary>
-        public ICollection<float> UnknownData4 { get; private set; }
+        public ICollection<TextureCoordinateUV> TextureCoordinates3 { get; private set; }
 
         /// <summary>
-        /// Set if <see cref="UnknownFlag1.Flag6"> set. Size = 4 * <see cref="Vertices"/>
+        /// Set if <see cref="ContainsFlag.TextureCoordinate4"> set. Size = <see cref="Vertices"/>
+        /// </summary>
+        public ICollection<TextureCoordinateUV> TextureCoordinates4 { get; private set; }
+
+        /// <summary>
+        /// Set if <see cref="ContainsFlag.Flag6"> set. Size = 4 * <see cref="Vertices"/>
         /// </summary>
         public ICollection<float> UnknownData6 { get; private set; }
 
@@ -104,7 +117,7 @@ namespace I3dShapes.Model
 
         private new void Load(BinaryReader reader)
         {
-            base.Load(reader);
+            base.Load(reader, true);
             var pos = reader.BaseStream.Position;
             BoundingVolumeX = reader.ReadSingle();
             BoundingVolumeY = reader.ReadSingle();
@@ -113,7 +126,7 @@ namespace I3dShapes.Model
             VertexCount = reader.ReadInt32();
             Unknown6 = reader.ReadInt32();
             Vertices = reader.ReadInt32();
-            UnknownFlags = (UnknownFlag) reader.ReadUInt32();
+            ContainsFlags = (ContainsFlag) reader.ReadUInt32();
             Unknown8 = reader.ReadInt32();
             UvCount = reader.ReadInt32();
             Unknown9 = reader.ReadInt32();
@@ -147,7 +160,7 @@ namespace I3dShapes.Model
                            .Select(v => new PointVector(reader))
                            .ToArray();
 
-            LoadBinary(reader, UnknownFlags, Vertices);
+            LoadBinary(reader, ContainsFlags, Vertices);
             Addition = new Additions(reader);
 
             if (!reader.EndOfStream())
@@ -156,63 +169,66 @@ namespace I3dShapes.Model
             }
         }
 
-        private void LoadBinary(BinaryReader reader, UnknownFlag flag, int verticesCount)
+        private void LoadBinary(BinaryReader reader, ContainsFlag flag, int verticesCount)
         {
-            var pos = reader.BaseStream.Position;
-            if (flag.HasFlag(UnknownFlag.Flag1))
+            if (flag.HasFlag(ContainsFlag.VertexNormal))
             {
-                UnknownData1 = Enumerable
-                               .Range(0, verticesCount * 3)
-                               .Select(v => reader.ReadSingle())
-                               .ToArray();
+                VertexNormals = Enumerable
+                                .Range(0, verticesCount)
+                                .Select(v => new VertexNormal(reader))
+                                .ToArray();
             }
 
-            pos = reader.BaseStream.Position;
-            if (flag.HasFlag(UnknownFlag.Flag8))
+            if (_version >= 4)
             {
-                UnknownData8 = Enumerable
-                               .Range(0, verticesCount * 4)
-                               .Select(v => reader.ReadSingle())
-                               .ToArray();
+                if (flag.HasFlag(ContainsFlag.Flag8))
+                {
+                    UnknownData8 = Enumerable
+                                   .Range(0, verticesCount * 4)
+                                   .Select(v => reader.ReadSingle())
+                                   .ToArray();
+                }
             }
 
-            pos = reader.BaseStream.Position;
-            if (flag.HasFlag(UnknownFlag.Flag2))
+            if (flag.HasFlag(ContainsFlag.TextureCoordinate))
             {
-                UnknownData2 = Enumerable
-                               .Range(0, verticesCount * 2)
-                               .Select(v => reader.ReadSingle())
-                               .ToArray();
+                TextureCoordinates = Enumerable
+                                     .Range(0, verticesCount)
+                                     .Select(v => new TextureCoordinateUV(reader))
+                                     .ToArray();
             }
 
-            pos = reader.BaseStream.Position;
-            if (flag.HasFlag(UnknownFlag.Flag3))
+            if (flag.HasFlag(ContainsFlag.TextureCoordinate2))
             {
-                UnknownData3 = Enumerable
-                               .Range(0, verticesCount * 2)
-                               .Select(v => reader.ReadSingle())
-                               .ToArray();
+                TextureCoordinates2 = Enumerable
+                                      .Range(0, verticesCount)
+                                      .Select(v => new TextureCoordinateUV(reader))
+                                      .ToArray();
             }
 
-            pos = reader.BaseStream.Position;
-            if (flag.HasFlag(UnknownFlag.Flag4))
+            if (flag.HasFlag(ContainsFlag.TextureCoordinate3))
             {
-                UnknownData4 = Enumerable
-                               .Range(0, verticesCount * 2)
-                               .Select(v => reader.ReadSingle())
-                               .ToArray();
+                TextureCoordinates3 = Enumerable
+                                      .Range(0, verticesCount)
+                                      .Select(v => new TextureCoordinateUV(reader))
+                                      .ToArray();
             }
 
-            pos = reader.BaseStream.Position;
-            if (flag.HasFlag(UnknownFlag.Flag6))
+            if (flag.HasFlag(ContainsFlag.TextureCoordinate4))
+            {
+                TextureCoordinates4 = Enumerable
+                                      .Range(0, verticesCount)
+                                      .Select(v => new TextureCoordinateUV(reader))
+                                      .ToArray();
+            }
+
+            if (flag.HasFlag(ContainsFlag.Flag6))
             {
                 UnknownData6 = Enumerable
                                .Range(0, verticesCount * 4)
                                .Select(v => reader.ReadSingle())
                                .ToArray();
             }
-
-            pos = reader.BaseStream.Position;
         }
     }
 }

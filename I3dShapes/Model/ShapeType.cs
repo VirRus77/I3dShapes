@@ -8,6 +8,9 @@
         Type3,
         Type4,
         Type5,
+        Raw,
+        RawNamed,
         Spline = Type2,
+        NavMesh = Type3,
     }
 }
