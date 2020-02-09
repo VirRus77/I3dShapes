@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using I3dShapes.Model;
-using I3dShapes.Model.Contract;
 using I3dShapes.Tools;
 using I3dShapes.Tools.Extensions;
 using Microsoft.Extensions.Logging;

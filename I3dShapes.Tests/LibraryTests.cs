@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Core.Tools.Extensions;
-using I3dShapes.Container;
 using I3dShapes.Model;
 using I3dShapes.Tests.Tools;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

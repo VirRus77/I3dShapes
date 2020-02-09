@@ -19,6 +19,4 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.0.0" />
   </ItemGroup>
 
-  <Import Project="..\Core\Core.Shared\Core.Shared.projitems" Label="Shared" />
-
 </Project>

@@ -1,7 +1,5 @@
-using System.Collections;
 using System.IO;
 using System.Linq;
-using System.Numerics;
 using Core.Tools.Extensions;
 using I3dShapes.Container;
 using I3dShapes.Model;
