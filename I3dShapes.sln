@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "I3dShapes", "I3dShapes\I3dS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "I3dShapes.Tests", "I3dShapes.Tests\I3dShapes.Tests.csproj", "{F02C2B36-95B4-417B-A275-6D0FF8746AFC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "..\..\Core\Core\Core.csproj", "{BEB5FCF1-A194-41E6-9361-3C67D4FB94EC}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ReverseEngineering", "ReverseEngineering", "{5C2EE3B0-45CA-40A0-96DE-31E7B092D149}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Templates", "Templates", "{D4162391-8C7E-4B95-9386-BC7AE75CB6CE}"
@@ -25,7 +23,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Core.Shared", "Core\Core.Shared\Core.Shared.shproj", "{D3A8A1A1-E9E9-4E02-ADE4-101B85EEAE72}"
+EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Core\Core.Shared\Core.Shared.projitems*{d3a8a1a1-e9e9-4e02-ade4-101b85eeae72}*SharedItemsImports = 13
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|x86 = Debug|x86
@@ -49,14 +52,6 @@ Global
 		{F02C2B36-95B4-417B-A275-6D0FF8746AFC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F02C2B36-95B4-417B-A275-6D0FF8746AFC}.Release|x86.ActiveCfg = Release|Any CPU
 		{F02C2B36-95B4-417B-A275-6D0FF8746AFC}.Release|x86.Build.0 = Release|Any CPU
-		{BEB5FCF1-A194-41E6-9361-3C67D4FB94EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BEB5FCF1-A194-41E6-9361-3C67D4FB94EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BEB5FCF1-A194-41E6-9361-3C67D4FB94EC}.Debug|x86.ActiveCfg = Debug|x86
-		{BEB5FCF1-A194-41E6-9361-3C67D4FB94EC}.Debug|x86.Build.0 = Debug|x86
-		{BEB5FCF1-A194-41E6-9361-3C67D4FB94EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BEB5FCF1-A194-41E6-9361-3C67D4FB94EC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BEB5FCF1-A194-41E6-9361-3C67D4FB94EC}.Release|x86.ActiveCfg = Release|x86
-		{BEB5FCF1-A194-41E6-9361-3C67D4FB94EC}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

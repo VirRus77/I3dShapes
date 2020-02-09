@@ -15,7 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Core\Core\Core.csproj" />
     <ProjectReference Include="..\I3dShapes\I3dShapes.csproj" />
   </ItemGroup>
 
