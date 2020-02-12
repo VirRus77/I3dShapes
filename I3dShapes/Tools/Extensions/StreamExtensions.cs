@@ -55,6 +55,7 @@ namespace I3dShapes.Tools.Extensions
             {
                 Array.Reverse(read, 0, read.Length);
             }
+
             return read;
         }
     }

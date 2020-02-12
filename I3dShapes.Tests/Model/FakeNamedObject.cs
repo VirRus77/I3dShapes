@@ -29,7 +29,7 @@ namespace I3dShapes.Tests.Model
             }
 
             reader.BaseStream.Seek(0, SeekOrigin.Begin);
-            RawData = reader.ReadBytes((int) (reader.BaseStream.Length - reader.BaseStream.Position));
+            RawData = reader.ReadBytes((int)(reader.BaseStream.Length - reader.BaseStream.Position));
         }
     }
 }

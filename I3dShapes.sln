@@ -13,19 +13,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Templates", "Templates", "{
 	ProjectSection(SolutionItems) = preProject
 		ReverseEngineering\Templates\Template.i3d.shapes.bt = ReverseEngineering\Templates\Template.i3d.shapes.bt
 		ReverseEngineering\Templates\Template.Shape.Attach.tm.bt = ReverseEngineering\Templates\Template.Shape.Attach.tm.bt
-		ReverseEngineering\Templates\Template.Shape.Type1.bt = ReverseEngineering\Templates\Template.Shape.Type1.bt
-		ReverseEngineering\Templates\Template.Spline.Type2.bt = ReverseEngineering\Templates\Template.Spline.Type2.bt
-		ReverseEngineering\Templates\Template.Type3.bt = ReverseEngineering\Templates\Template.Type3.bt
+		ReverseEngineering\Templates\Template.Type1.Shape.bt = ReverseEngineering\Templates\Template.Type1.Shape.bt
+		ReverseEngineering\Templates\Template.Type2.Spline.bt = ReverseEngineering\Templates\Template.Type2.Spline.bt
+		ReverseEngineering\Templates\Template.Type3.NavMesh.bt = ReverseEngineering\Templates\Template.Type3.NavMesh.bt
 		ReverseEngineering\Templates\Template.Type4.bt = ReverseEngineering\Templates\Template.Type4.bt
 		ReverseEngineering\Templates\Template.Type5.bt = ReverseEngineering\Templates\Template.Type5.bt
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DFDB2ABD-0B74-4CEA-B3FD-3E0EB498D269}"
 	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		LICENSE = LICENSE
 		README.md = README.md
 	EndProjectSection
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core\Core.csproj", "{5C2F26AF-681C-497E-A89D-30F3F7395D22}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,14 +51,6 @@ Global
 		{F02C2B36-95B4-417B-A275-6D0FF8746AFC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F02C2B36-95B4-417B-A275-6D0FF8746AFC}.Release|x86.ActiveCfg = Release|Any CPU
 		{F02C2B36-95B4-417B-A275-6D0FF8746AFC}.Release|x86.Build.0 = Release|Any CPU
-		{5C2F26AF-681C-497E-A89D-30F3F7395D22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5C2F26AF-681C-497E-A89D-30F3F7395D22}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5C2F26AF-681C-497E-A89D-30F3F7395D22}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{5C2F26AF-681C-497E-A89D-30F3F7395D22}.Debug|x86.Build.0 = Debug|Any CPU
-		{5C2F26AF-681C-497E-A89D-30F3F7395D22}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5C2F26AF-681C-497E-A89D-30F3F7395D22}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5C2F26AF-681C-497E-A89D-30F3F7395D22}.Release|x86.ActiveCfg = Release|Any CPU
-		{5C2F26AF-681C-497E-A89D-30F3F7395D22}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

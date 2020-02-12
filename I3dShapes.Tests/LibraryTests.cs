@@ -2,10 +2,10 @@
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using Core.Tools.Extensions;
 using I3dShapes.Model;
 using I3dShapes.Tests.Tools;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using MoreLinq.Extensions;
 
 namespace I3dShapes.Tests
 {
@@ -97,18 +97,15 @@ namespace I3dShapes.Tests
             var shapes = shapeFile.ReadKnowTypes();
 
             var answer = shapes
-                         .GroupBy(v => v.Type)
-                         .Select(v => (v.Key, v.Count()))
-                         .ToArray();
+                .GroupBy(v => v.Type)
+                .Select(v => (v.Key, v.Count()))
+                .ToArray();
             answer
                 .ForEach(v => Assert.AreEqual(testAnswer[v.Key], v.Item2, $"{shapeFileName} [{v.Key}]"));
 
             // OR Custom shape types
             shapes = shapeFile.ReadKnowTypes(
-                new[]
-                {
-                    ShapeType.Type1
-                }
+                new[] { ShapeType.Type1 }
             );
 
             answer

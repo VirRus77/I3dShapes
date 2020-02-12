@@ -17,7 +17,7 @@ namespace I3dShapes.Model
         private void Load(BinaryReader reader)
         {
             var count = reader.ReadUInt32();
-            
+
             // ReSharper disable BuiltInTypeReferenceStyleForMemberAccess
             if (count > Int32.MaxValue)
                 // ReSharper restore BuiltInTypeReferenceStyleForMemberAccess
@@ -25,9 +25,9 @@ namespace I3dShapes.Model
                 throw new Exception("count > Int32.MaxValue");
             }
 
-            AdditionList = Enumerable.Range(0, (int) count)
-                                     .Select(v => new AdditionContainer(reader))
-                                     .ToArray();
+            AdditionList = Enumerable.Range(0, (int)count)
+                .Select(v => new AdditionContainer(reader))
+                .ToArray();
         }
     }
 }

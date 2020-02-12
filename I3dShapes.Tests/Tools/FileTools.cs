@@ -5,7 +5,6 @@ namespace I3dShapes.Tests.Tools
 {
     public static class FileTools
     {
-
         /// <summary>
         /// https://stackoverflow.com/a/7393722/2911165
         /// </summary>
@@ -14,7 +13,7 @@ namespace I3dShapes.Tests.Tools
         public static string CleanFileName(string fileName)
         {
             return Path.GetInvalidFileNameChars()
-                       .Aggregate(fileName, (current, c) => current.Replace(c.ToString(), string.Empty));
+                .Aggregate(fileName, (current, c) => current.Replace(c.ToString(), string.Empty));
         }
     }
 }

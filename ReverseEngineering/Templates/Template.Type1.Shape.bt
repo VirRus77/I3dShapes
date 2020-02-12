@@ -317,16 +317,21 @@ if (Unknown7.VertexNormal) {
     VertexNormals VertexNormal [Vertices] <bgcolor=0x20F080,fgcolor=0x20F080,comment=VertexNormalsComment>;
 }
 
-if (Unknown7.Flag_8) {
-  if(version >= 4) {
-    float UNK_8_82[Vertices * 4] <bgcolor=0x20F0F0,fgcolor=0xF080F0>;
-  } else {
-    //float UNK_8_82[Vertices * 2] <bgcolor=0x20F0F0,fgcolor=0xF080F0>;
-  }
+if (Unknown7.Flag_8 && version > 4) {
+    float TextureCoordinates8[Vertices * 4] <bgcolor=0x20F0F0,fgcolor=0x20F0F0>;    
 }
 
 if (Unknown7.TextureCoordinate) {
-    TextureCoordinateUV TextureCoordinates[Vertices] <bgcolor=0x20F0F0,fgcolor=0x20F0F0,comment=TextureCoordinateUVComment>;
+  TextureCoordinateUV TextureCoordinates[Vertices] <bgcolor=0x20F0F0,fgcolor=0x20F0F0,comment=TextureCoordinateUVComment>;  
+
+/*
+  if(Vertices > 255) {
+    
+  } else {
+    float TextureCoordinates[Vertices * 4] <bgcolor=0x20F0F0,fgcolor=0x20F0F0>;
+    float TextureCoordinates2[Vertices*2] <bgcolor=0x20F0F0,fgcolor=0x20F0F0>;
+  }
+*/
 }
 
 if (Unknown7.TextureCoordinate2) {
@@ -345,6 +350,14 @@ if (Unknown7.Flag_6) {
   float UNK_8_6[Vertices * 4] <bgcolor=0x20F080,fgcolor=0x20F080>;
 }
 
+if (Unknown7.Flag_7 && Unknown7.Flag_9 == 0) {
+  float UNK_8_7[Vertices * 4] <bgcolor=0x20F0F0,fgcolor=0xF080F0>;
+  short UNK_8_7_2[Vertices * 2] <bgcolor=0x20F080,fgcolor=0x20F080>;
+}
+
+if(Unknown7.Flag_9) {
+  byte UNK_8_9[Vertices] <bgcolor=0x20F080,fgcolor=0xF080F0>;
+}
 /*
 if(Unknown7.Flag_8) {
   float Unk2[UvCount*4]<bgcolor=0xE000F0>;

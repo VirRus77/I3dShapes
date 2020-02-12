@@ -4,6 +4,7 @@
     {
         #region KeyConstant
 
+        // @formatter:off — disable formatter after this line
         private readonly uint[] KeyConst =
         {
             0xE3E4E5E3, 0xE3E3E3E4, 0xE1E2E3E3, 0xE2E2E1E1, 0xE1E2E1E2, 0xE1E1E2E1, 0xE1E2E4E3, 0xE1E1E2E1,
@@ -519,6 +520,7 @@
             0x575A5B5C, 0x5E615855, 0x64666160, 0x766F6A6D, 0x3768877B, 0x776E5C3F, 0x5F6C809B, 0xCCCDC6A0,
             0xCECDCFCE, 0xCFCFD0CF, 0xD4D2D1CE, 0xD5D3D2D4, 0xD6D6D4D6, 0xD6D6D7D8, 0xDCDAD9D8, 0xD9DAD9D9
         };
+        // @formatter:on — enable formatter after this line
 
         #endregion
     }

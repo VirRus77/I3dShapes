@@ -8,7 +8,14 @@ namespace I3dShapes.Container
     /// </summary>
     public class FileHeader
     {
+        /// <summary>
+        /// File version.
+        /// </summary>
         public short Version { get; private set; }
+
+        /// <summary>
+        /// Seed key.
+        /// </summary>
         public byte Seed { get; private set; }
 
         public static FileHeader Read(Stream stream)

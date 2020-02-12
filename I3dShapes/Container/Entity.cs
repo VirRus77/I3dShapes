@@ -2,6 +2,7 @@
 using System.IO;
 using System.Runtime.InteropServices;
 using I3dShapes.Tools;
+using I3dShapes.Tools.Extensions;
 
 namespace I3dShapes.Container
 {
@@ -37,17 +38,29 @@ namespace I3dShapes.Container
         /// <param name="decryptor">Decryptor.</param>
         /// <param name="decryptIndexBlock">Index Decrypt Block.</param>
         /// <param name="endian">File endian.</param>
-        /// <param name="version">File version.</param>
+        /// <param name="isEncrypted">Is encrypt file.</param>
         /// <returns></returns>
-        public static Entity Read(in Stream stream, in IDecryptor decryptor, ref ulong decryptIndexBlock, in Endian endian)
+        public static Entity Read(
+            in Stream stream,
+            in IDecryptor decryptor,
+            ref ulong decryptIndexBlock,
+            in Endian endian,
+            bool isEncrypted = true
+        )
         {
             var cryptBlockCount = 0ul;
 
-            var type = FileContainer.ReadDecryptUInt32(stream, decryptor, decryptIndexBlock + cryptBlockCount, endian);
+            var type = isEncrypted
+                ? FileContainer.ReadDecryptUInt32(stream, decryptor, decryptIndexBlock + cryptBlockCount, endian)
+                : stream.ReadUInt32(endian);
+
             var blockSize = (uint)Marshal.SizeOf(type);
             cryptBlockCount += FileContainer.RoundUp(blockSize, Decryptor.CryptBlockSize);
 
-            var size = FileContainer.ReadDecryptUInt32(stream, decryptor, decryptIndexBlock + cryptBlockCount, endian);
+            var size = isEncrypted
+                ? FileContainer.ReadDecryptUInt32(stream, decryptor, decryptIndexBlock + cryptBlockCount, endian)
+                : stream.ReadUInt32(endian);
+
             blockSize = (uint)Marshal.SizeOf(size);
             cryptBlockCount += FileContainer.RoundUp(blockSize, Decryptor.CryptBlockSize);
             var startDecryptIndexBlock = decryptIndexBlock + cryptBlockCount;

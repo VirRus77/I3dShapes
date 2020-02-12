@@ -18,7 +18,9 @@ namespace I3dShapes.Container
             _key = new uint[0x10];
             var startIdx = seed << 4;
             for (var i = 0; i < _key.Length; i++)
+            {
                 _key[i] = KeyConst[startIdx + i];
+            }
             //Block Counter
             _key[0x8] = 0;
             _key[0x9] = 0;
@@ -41,23 +43,17 @@ namespace I3dShapes.Container
             {
                 throw new ArgumentOutOfRangeException(nameof(sourceIndex));
             }
+
             if (destination.Count < source.Count - sourceIndex)
             {
                 throw new ArgumentOutOfRangeException(nameof(destination));
             }
+
             if (destination.Count % 4 != 0)
             {
                 throw new InvalidCastException(nameof(destination));
             }
 
-            //Array.Copy(BitConverter.GetBytes(source[0]), 0, destination, 0);
-            //Enumerable.Range(0,source.Count - sourceIndex)
-            //          .Select(v=>new[]{})
-            //          .ForEach(
-            //              i =>
-            //              {
-            //                  destination[i*4+0] = 
-            //              });
             for (int i = sourceIndex,
                 o = 0;
                 o < destination.Count && i < source.Count;

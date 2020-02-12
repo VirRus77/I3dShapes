@@ -17,15 +17,9 @@ namespace I3dShapes.Model
         private static readonly Dictionary<ShapeType, Func<BinaryReader, int, IShapeObject>> KnownTypeToLoader =
             new Dictionary<ShapeType, Func<BinaryReader, int, IShapeObject>>
             {
-                {
-                    ShapeType.Type1, (reader, version) => new ShapeType1(reader, version)
-                },
-                {
-                    ShapeType.Spline, (reader, version) => new Spline(reader)
-                },
-                {
-                    ShapeType.NavMesh, (reader, version) => new NavMesh(reader)
-                },
+                { ShapeType.Type1, (reader, version) => new Shape(reader, version) },
+                { ShapeType.Spline, (reader, version) => new Spline(reader) },
+                { ShapeType.NavMesh, (reader, version) => new NavMesh(reader) },
             };
 
         /// <summary>
@@ -44,6 +38,10 @@ namespace I3dShapes.Model
             _entities = Container.GetEntities();
         }
 
+        public int Seed => Container.Header.Seed;
+
+        public int Version => Container.Header.Version;
+
         public FileContainer Container { get; }
 
         /// <inheritdoc cref="FileContainer.FilePath"/>
@@ -57,8 +55,7 @@ namespace I3dShapes.Model
         public IEnumerable<IRawShapeObject> ReadRawShape(params uint[] rawTypes)
         {
             var workEntities = rawTypes?.Any() == true
-                ? _entities
-                    .Where(v => rawTypes.Contains(v.Type))
+                ? _entities.Where(v => rawTypes.Contains(v.Type))
                 : _entities;
 
             foreach (var entityRaw in Container.ReadRawData(workEntities))
@@ -77,8 +74,7 @@ namespace I3dShapes.Model
         public IEnumerable<IRawNamedShapeObject> ReadRawNamedShape(params uint[] rawTypes)
         {
             var workEntities = rawTypes?.Any() == true
-                ? _entities
-                    .Where(v => rawTypes.Contains(v.Type))
+                ? _entities.Where(v => rawTypes.Contains(v.Type))
                 : _entities;
 
             foreach (var entityRaw in Container.ReadRawData(workEntities))
@@ -101,14 +97,14 @@ namespace I3dShapes.Model
                 : AllKnownReadTypes.ToArray();
 
             shapeTypes = shapeTypes
-                    .Where(v => AllKnownReadTypes.Contains(v))
-                    .ToArray();
+                .Where(v => AllKnownReadTypes.Contains(v))
+                .ToArray();
 
             var rawTypes = shapeTypes
-                           .Select(v => ShapeTypeToRawType(v))
-                           .Where(v => v != 0)
-                           .Distinct()
-                           .ToArray();
+                .Select(v => ShapeTypeToRawType(v))
+                .Where(v => v != 0)
+                .Distinct()
+                .ToArray();
 
             var workEntities = _entities
                 .Where(entity => rawTypes.Contains(entity.Type));

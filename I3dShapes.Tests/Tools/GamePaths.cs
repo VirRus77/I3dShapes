@@ -17,18 +17,18 @@ namespace I3dShapes.Tests.Tools
         private static readonly IDictionary<FarmSimulatorVersion, string> VersionToNameSaveDirectory =
             new Dictionary<FarmSimulatorVersion, string>
             {
-                {FarmSimulatorVersion.FarmingSimulator2019, "FarmingSimulator2019"},
-                {FarmSimulatorVersion.FarmingSimulator2017, "FarmingSimulator2017"},
-                {FarmSimulatorVersion.FarmingSimulator2015, "FarmingSimulator2015"},
+                { FarmSimulatorVersion.FarmingSimulator2019, "FarmingSimulator2019" },
+                { FarmSimulatorVersion.FarmingSimulator2017, "FarmingSimulator2017" },
+                { FarmSimulatorVersion.FarmingSimulator2015, "FarmingSimulator2015" },
             };
 
         private static readonly IDictionary<FarmSimulatorVersion, string> VersionToNameGameDirectory =
             new Dictionary<FarmSimulatorVersion, string>
             {
-                {FarmSimulatorVersion.FarmingSimulator2019, "Farming Simulator 19"},
-                {FarmSimulatorVersion.FarmingSimulator2017, "Farming Simulator 17"},
-                {FarmSimulatorVersion.FarmingSimulator2015, "Farming Simulator 15"},
-                {FarmSimulatorVersion.FarmingSimulator2013, "Farming Simulator 2013"},
+                { FarmSimulatorVersion.FarmingSimulator2019, "Farming Simulator 19" },
+                { FarmSimulatorVersion.FarmingSimulator2017, "Farming Simulator 17" },
+                { FarmSimulatorVersion.FarmingSimulator2015, "Farming Simulator 15" },
+                { FarmSimulatorVersion.FarmingSimulator2013, "Farming Simulator 2013" },
             };
 
         public static string GetSavesPath(FarmSimulatorVersion version)
@@ -37,6 +37,7 @@ namespace I3dShapes.Tests.Tools
             {
                 throw new NotSupportedException();
             }
+
             return Path.Combine(MyGamesPath, VersionToNameSaveDirectory[version]);
         }
 
@@ -64,6 +65,7 @@ namespace I3dShapes.Tests.Tools
             {
                 return null;
             }
+
             var gameMapsPath = Path.Combine(gameDataPath, GameConstants.MapDirectory);
             return !Directory.Exists(gameMapsPath) ? null : gameMapsPath;
         }

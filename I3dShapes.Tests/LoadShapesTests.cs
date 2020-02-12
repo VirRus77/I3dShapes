@@ -2,13 +2,13 @@
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using Core.Tools.Extensions;
 using I3dShapes.Container;
 using I3dShapes.Model;
 using I3dShapes.Tests.Model;
 using I3dShapes.Tests.Tools;
 using I3dShapes.Tools;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using MoreLinq.Extensions;
 
 namespace I3dShapes.Tests
 {
@@ -32,7 +32,7 @@ namespace I3dShapes.Tests
             //    Trace.WriteLine(message);
             //    Assert.Inconclusive(message);
             //}
-            LoadTypedShape(version, shapeFileName, 1, (reader, version) => new ShapeType1(reader, version));
+            LoadTypedShape(version, shapeFileName, 1, (reader, version) => new Shape(reader, version));
         }
 
         [TestMethod]
@@ -88,36 +88,69 @@ namespace I3dShapes.Tests
             var entities = fileContainer.GetEntities();
             var error = false;
             fileContainer.ReadRawData(entities)
-                         .Where(v => v.Entity.Type == rawType)
-                         .ForEach(
-                             v =>
-                             {
-                                 try
-                                 {
-                                     using var stream = new MemoryStream(v.RawData);
-                                     using var reader = new EndianBinaryReader(stream, fileContainer.Endian);
-                                     var shape = loadShape(reader, fileContainer.Version);
-                                 }
-                                 catch (Exception ex)
-                                 {
-                                     error = true;
-                                     using var stream = new MemoryStream(v.RawData);
-                                     using var reader = new EndianBinaryReader(stream, fileContainer.Endian);
-                                     Trace.WriteLine($"Error load shape.");
-                                     var errorShape2 = new ReverseEngineeringNamedShape1Object(
-                                         v.Entity.Type,
-                                         reader,
-                                         fileContainer.Endian
-                                     );
-                                     Save(errorOutputPath, version, errorShape2, v.RawData);
-                                 }
-                             }
-                         );
+                .Where(v => v.Entity.Type == rawType)
+                .ForEach(
+                    v =>
+                    {
+                        try
+                        {
+                            using var stream = new MemoryStream(v.RawData);
+                            using var reader = new EndianBinaryReader(stream, fileContainer.Endian);
+                            var shape = loadShape(reader, fileContainer.Header.Version);
+                        }
+                        catch (Exception ex)
+                        {
+                            error = true;
+                            using var stream = new MemoryStream(v.RawData);
+                            using var reader = new EndianBinaryReader(stream, fileContainer.Endian);
+                            Trace.WriteLine($"Error load shape.");
+                            var errorShape2 = new ReverseEngineeringNamedShape1Object(
+                                v.Entity.Type,
+                                reader,
+                                fileContainer.Endian
+                            );
+                            Save(errorOutputPath, version, errorShape2, v.RawData);
+                        }
+                    }
+                );
 
             if (error)
             {
                 Assert.Fail();
             }
+        }
+
+        [TestMethod]
+        [DataRow(@"D:\SteamLibrary\steamapps\common\Farming Simulator 17\data\vehicles\tools\magsi\telehandlerLogFork.i3d.shapes")]
+        public void DebugLoadFileShape(string shapeFilePath)
+        {
+            var output = @"G:\NickProd\Farming Simulator 19\Temp";
+            var gameDirectory = GamePaths.GetGamePath(FarmSimulatorVersion.FarmingSimulator2017);
+            var realtive = Path.GetRelativePath(gameDirectory, shapeFilePath);
+            var shapeFile = new ShapeFile(shapeFilePath);
+            var index = 0;
+            try
+            {
+                shapeFile.ReadKnowTypes()
+                    .ForEach((v, i) => index = i);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
+            //shapeFile.ReadRawNamedShape()
+            //         .ForEach(
+            //             v =>
+            //             {
+            //                 var dirOutName = Path.Combine(output, realtive);
+            //                 if (!Directory.Exists(dirOutName))
+            //                 {
+            //                     Directory.CreateDirectory(dirOutName);
+            //                 }
+            //                 File.WriteAllBytes(Path.Combine(dirOutName, $"[{v.Id}]_{FileTools.CleanFileName(v.Name)}.bin"), v.RawData);
+            //             });
         }
 
         [TestMethod]
@@ -130,7 +163,7 @@ namespace I3dShapes.Tests
             var endian = version < 4 ? Endian.Big : Endian.Little;
             using var stream = File.OpenRead(shapeFilePath);
             using var reader = new EndianBinaryReader(stream, endian);
-            var shape = new ShapeType1(reader, version);
+            var shape = new Shape(reader, version);
         }
 
         //[TestMethod]

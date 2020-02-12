@@ -10,6 +10,7 @@
         Type5,
         Raw,
         RawNamed,
+        Shape = Type1,
         Spline = Type2,
         NavMesh = Type3,
     }

@@ -12,11 +12,7 @@ namespace I3dShapes.Tests.Tools
     /// </summary>
     public static class SteamHelper
     {
-        private static readonly ICollection<string> RegistryKeys = new[]
-        {
-            "SOFTWARE\\Wow6432Node\\Valve\\",
-            "SOFTWARE\\VALVE\\"
-        };
+        private static readonly ICollection<string> RegistryKeys = new[] { "SOFTWARE\\Wow6432Node\\Valve\\", "SOFTWARE\\VALVE\\" };
 
         private static readonly ICollection<string> SteamGameDirectories = new List<string>();
 
@@ -29,18 +25,18 @@ namespace I3dShapes.Tests.Tools
         {
             SteamGameDirectories.Clear();
             RegistryKeys.Select(v => Registry.LocalMachine.OpenSubKey(v))
-                        .Where(registryKey => registryKey != null)
-                        .SelectMany(
-                            registryKey =>
-                            {
-                                using (registryKey)
-                                {
-                                    return GetDirectories(registryKey).ToArray();
-                                }
-                            }
-                        )
-                        .ToList()
-                        .ForEach(directoryName => SteamGameDirectories.Add(directoryName));
+                .Where(registryKey => registryKey != null)
+                .SelectMany(
+                    registryKey =>
+                    {
+                        using (registryKey)
+                        {
+                            return GetDirectories(registryKey).ToArray();
+                        }
+                    }
+                )
+                .ToList()
+                .ForEach(directoryName => SteamGameDirectories.Add(directoryName));
         }
 
         private static IEnumerable<string> GetDirectories(RegistryKey registryKey)
@@ -81,8 +77,8 @@ namespace I3dShapes.Tests.Tools
         public static string GetGameDirectory(string gameFolderName)
         {
             return SteamGameDirectories
-                   .Select(v => Path.Combine(v, gameFolderName))
-                   .FirstOrDefault(v => Directory.Exists(v));
+                .Select(v => Path.Combine(v, gameFolderName))
+                .FirstOrDefault(v => Directory.Exists(v));
         }
     }
 }

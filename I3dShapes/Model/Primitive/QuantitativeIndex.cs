@@ -28,9 +28,9 @@ namespace I3dShapes.Model.Primitive
             }
             // ReSharper restore BuiltInTypeReferenceStyleForMemberAccess
 
-            Indexis = Enumerable.Range(0, (int) Count)
-                                .Select(v => new PairIndex(reader))
-                                .ToArray();
+            Indexis = Enumerable.Range(0, (int)Count)
+                .Select(v => new PairIndex(reader))
+                .ToArray();
         }
     }
 }

@@ -1,6 +1,5 @@
 using System.IO;
 using System.Linq;
-using Core.Tools.Extensions;
 using I3dShapes.Container;
 using I3dShapes.Model;
 using I3dShapes.Model.Contract;
@@ -8,6 +7,7 @@ using I3dShapes.Tests.Model;
 using I3dShapes.Tests.Tools;
 using I3dShapes.Tools;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using MoreLinq.Extensions;
 
 namespace I3dShapes.Tests
 {
@@ -32,9 +32,10 @@ namespace I3dShapes.Tests
             {
                 Assert.Inconclusive($"File map not found [{version}]: \"{mapName}\"");
             }
+
             var container = new ShapeFile(mapPath);
             container.ReadRawNamedShape(1)
-                     .ForEach(v => Save(outputPath, v));
+                .ForEach(v => Save(outputPath, v));
         }
 
         [TestMethod]
@@ -58,9 +59,10 @@ namespace I3dShapes.Tests
             {
                 Directory.Delete(outputPath, true);
             }
+
             var shapeFile = new ShapeFile(mapPath);
             shapeFile.ReadRawNamedShape(1)
-                     .ForEach(v => SaveType1(outputPath, v, shapeFile.Container.Endian));
+                .ForEach(v => SaveType1(outputPath, v, shapeFile.Container.Endian));
         }
 
         [TestMethod]

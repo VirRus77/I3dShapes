@@ -7,7 +7,7 @@ namespace I3dShapes.Tools.Extensions
     {
         public static byte[] Align(this BinaryReader reader, int countBytes)
         {
-            var mod = reader.BaseStream.Position % countBytes;
+            var mod = reader.Position() % countBytes;
             if (mod == 0)
             {
                 return Array.Empty<byte>();
@@ -26,15 +26,6 @@ namespace I3dShapes.Tools.Extensions
         {
             return reader.BaseStream.Length;
         }
-
-        //public static long Seek(this BinaryReader reader, long offset, SeekOrigin origin)
-        //{
-        //    if (!reader.BaseStream.CanSeek)
-        //    {
-        //        throw new Exception("Cant seek.");
-        //    }
-        //    return reader.BaseStream.Seek(offset, origin);
-        //}
 
         public static byte[] ReadAll(this BinaryReader reader)
         {

@@ -35,9 +35,9 @@ namespace I3dShapes.Model
             }
 
             Points = Enumerable
-                     .Range(0, (int) pointCount)
-                     .Select(index => new PointVector(reader))
-                     .ToArray();
+                .Range(0, (int)pointCount)
+                .Select(index => new PointVector(reader))
+                .ToArray();
 
             if (!reader.EndOfStream())
             {

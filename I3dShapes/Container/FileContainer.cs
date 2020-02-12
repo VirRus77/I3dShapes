@@ -43,6 +43,7 @@ namespace I3dShapes.Container
             }
 
             Endian = GetEndian(Header.Version);
+            IsEncrypted = GetIsEncrypted(Header);
         }
 
         /// <summary>
@@ -52,9 +53,9 @@ namespace I3dShapes.Container
 
         public FileHeader Header { get; private set; }
 
-        public Endian Endian { get; private set; }
+        public bool IsEncrypted { get; set; }
 
-        public short Version => Header.Version;
+        public Endian Endian { get; private set; }
 
         /// <summary>
         /// Read all <see cref="Entity"/> in file.
@@ -62,7 +63,7 @@ namespace I3dShapes.Container
         /// <returns>Collection <see cref="Entity"/></returns>
         public ICollection<Entity> GetEntities()
         {
-            return ReadEntities(_decryptor, FilePath);
+            return ReadEntities(_decryptor, FilePath, IsEncrypted);
         }
 
         public IEnumerable<(Entity Entity, byte[] RawData)> ReadRawData(IEnumerable<Entity> entities)
@@ -80,35 +81,16 @@ namespace I3dShapes.Container
             return ReadRawData(stream, entity);
         }
 
-        internal static uint ReadDecryptUInt32(in Stream stream, in IDecryptor decryptor, in ulong cryptBlockIndex, in Endian endian)
-        {
-            var nextCryptBlockIndex = 0ul;
-            return ReadDecryptUInt32(stream, decryptor, cryptBlockIndex, ref nextCryptBlockIndex, endian);
-        }
-
-        internal static uint ReadDecryptUInt32(
-            in Stream stream,
-            in IDecryptor decryptor,
-            in ulong cryptBlockIndex,
-            ref ulong nextCryptBlockIndex,
-            in Endian endian
-        )
-        {
-            var buffer = stream.Read(sizeof(int));
-            decryptor.Decrypt(buffer, cryptBlockIndex, ref nextCryptBlockIndex);
-            if (endian == Endian.Big)
-            {
-                Array.Reverse(buffer);
-            }
-
-            return BitConverter.ToUInt32(buffer, 0);
-        }
-
         private byte[] ReadRawData(Stream stream, Entity entity)
         {
             stream.Seek(entity.OffsetRawBlock, SeekOrigin.Begin);
             var buffer = stream.Read((int)entity.Size);
-            _decryptor.Decrypt(buffer, entity.DecryptIndexBlock);
+
+            if (IsEncrypted)
+            {
+                _decryptor.Decrypt(buffer, entity.DecryptIndexBlock);
+            }
+
             return buffer;
         }
 
@@ -142,7 +124,7 @@ namespace I3dShapes.Container
         /// <param name="decryptor"></param>
         /// <param name="fileName"></param>
         /// <returns></returns>
-        private static ICollection<Entity> ReadEntities(IDecryptor decryptor, in string fileName)
+        private static ICollection<Entity> ReadEntities(IDecryptor decryptor, in string fileName, bool isEncrypted = true)
         {
             using var stream = File.OpenRead(fileName);
             var header = ReadHeader(stream);
@@ -150,12 +132,43 @@ namespace I3dShapes.Container
 
             var cryptBlockIndex = 0ul;
 
-            var countEntities = ReadDecryptUInt32(stream, decryptor, cryptBlockIndex, ref cryptBlockIndex, endian);
+            var countEntities = isEncrypted
+                ? ReadDecryptUInt32(stream, decryptor, cryptBlockIndex, ref cryptBlockIndex, endian)
+                : stream.ReadUInt32(endian);
 
             return Enumerable
-                   .Range(0, (int)countEntities)
-                   .Select(v => Entity.Read(stream, decryptor, ref cryptBlockIndex, endian))
-                   .ToArray();
+                .Range(0, (int)countEntities)
+                .Select(v => Entity.Read(stream, decryptor, ref cryptBlockIndex, endian, isEncrypted))
+                .ToArray();
+        }
+
+        internal static uint ReadDecryptUInt32(in Stream stream, in IDecryptor decryptor, in ulong cryptBlockIndex, in Endian endian)
+        {
+            var nextCryptBlockIndex = 0ul;
+            return ReadDecryptUInt32(stream, decryptor, cryptBlockIndex, ref nextCryptBlockIndex, endian);
+        }
+
+        internal static uint ReadDecryptUInt32(
+            in Stream stream,
+            in IDecryptor decryptor,
+            in ulong cryptBlockIndex,
+            ref ulong nextCryptBlockIndex,
+            in Endian endian
+        )
+        {
+            var buffer = stream.Read(sizeof(int));
+            decryptor.Decrypt(buffer, cryptBlockIndex, ref nextCryptBlockIndex);
+            if (endian == Endian.Big)
+            {
+                Array.Reverse(buffer);
+            }
+
+            return BitConverter.ToUInt32(buffer, 0);
+        }
+
+        internal static ulong RoundUp(in ulong value, in ulong toNearest)
+        {
+            return (value + toNearest - 1) / toNearest;
         }
 
         private static Endian GetEndian(in short version)
@@ -163,9 +176,9 @@ namespace I3dShapes.Container
             return version >= 4 ? Endian.Little : Endian.Big;
         }
 
-        internal static ulong RoundUp(in ulong value, in ulong toNearest)
+        private bool GetIsEncrypted(FileHeader header)
         {
-            return (value + toNearest - 1) / toNearest;
+            return header.Version != 2 && header.Seed != 0;
         }
     }
 }

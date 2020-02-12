@@ -53,6 +53,7 @@ namespace I3dShapes.Model
             {
                 throw new UnknownFormatShapeException();
             }
+
             if (CountIndexis > Int32.MaxValue)
             {
                 throw new UnknownFormatShapeException();
@@ -60,12 +61,12 @@ namespace I3dShapes.Model
             // ReSharper restore BuiltInTypeReferenceStyleForMemberAccess
 
             Vectors = Enumerable.Range(0, (int)CountPoints)
-                                .Select(v => new PointVector(reader))
-                                .ToArray();
+                .Select(v => new PointVector(reader))
+                .ToArray();
 
             Indexis = Enumerable.Range(0, (int)CountIndexis)
-                                .Select(v => new QuantitativeIndex(reader))
-                                .ToArray();
+                .Select(v => new QuantitativeIndex(reader))
+                .ToArray();
 
             if (!reader.EndOfStream())
             {
