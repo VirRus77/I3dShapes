@@ -1,4 +1,4 @@
-[![SkiaSharp](https://img.shields.io/nuget/v/VirRus77.I3dShapes)](https://www.nuget.org/packages/VirRus77.I3dShapes)
+[![VirRus77.I3dShapes](https://img.shields.io/nuget/v/VirRus77.I3dShapes)](https://www.nuget.org/packages/VirRus77.I3dShapes)
 # I3dShapes
 Library used for extracting the binary .i3d.shapes files used by the GIANTS engine.
 * (Based on https://github.com/Donkie/I3DShapesTool)
