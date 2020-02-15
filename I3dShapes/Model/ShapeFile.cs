@@ -9,6 +9,9 @@ using Microsoft.Extensions.Logging;
 
 namespace I3dShapes.Model
 {
+    /// <summary>
+    /// Work from <see cref="IShapeObject"/>.
+    /// </summary>
     public class ShapeFile
     {
         /// <summary>
@@ -31,6 +34,11 @@ namespace I3dShapes.Model
         private readonly ILogger _logger;
         private ICollection<Entity> _entities;
 
+        /// <summary>
+        /// Constructor <see cref="ShapeFile"/>.
+        /// </summary>
+        /// <param name="fileName">File name shape file.</param>
+        /// <param name="logger">Logger.</param>
         public ShapeFile(string fileName, ILogger logger = null)
         {
             _logger = logger;
@@ -38,10 +46,19 @@ namespace I3dShapes.Model
             _entities = Container.GetEntities();
         }
 
+        /// <summary>
+        /// Seed by key.
+        /// </summary>
         public int Seed => Container.Header.Seed;
 
+        /// <summary>
+        /// File version.
+        /// </summary>
         public int Version => Container.Header.Version;
 
+        /// <summary>
+        /// Crypto container.
+        /// </summary>
         public FileContainer Container { get; }
 
         /// <inheritdoc cref="FileContainer.FilePath"/>

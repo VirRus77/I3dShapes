@@ -32,7 +32,7 @@ namespace I3dShapes.Model
         public ICollection<PointVector> Vectors { get; private set; }
         public ICollection<QuantitativeIndex> Indexis { get; private set; }
 
-        private new void Load(BinaryReader reader)
+        private void Load(BinaryReader reader)
         {
             base.Load(reader);
             Unknow1 = reader.ReadSingle();

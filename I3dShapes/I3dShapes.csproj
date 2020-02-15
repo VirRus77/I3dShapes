@@ -2,27 +2,32 @@
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
+    <AssemblyName>VirRus77.I3dShapes</AssemblyName>
+    <RootNamespace>I3dShapes</RootNamespace>
 
     <TargetFrameworks>net46;netstandard1.6;netstandard2.0</TargetFrameworks>
+    <RuntimeIdentifiers>win-x64;win-x86</RuntimeIdentifiers>
 
     <LangVersion>latest</LangVersion>
-    <GenerateDocumentation>true</GenerateDocumentation>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <IncludeSymbols>true</IncludeSymbols>
   </PropertyGroup>
 
   <!-- Nuget Package -->
   <PropertyGroup>
-    <Author>Sotin Nikolay aka VirRus77</Author>
+    <Authors>Sotin Nikolay aka VirRus77</Authors>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <PackageTags>giants;.i3d.shapes;farming-simulator;extract;library</PackageTags>
+    <PackageTags>giants;.i3d.shapes;farming-simulator;extract;library;decrypt</PackageTags>
     <RepositoryUrl>https://github.com/VirRus77/I3dShapes.git</RepositoryUrl>
-    <RepositoryType>Git</RepositoryType>
+    <RepositoryType>git</RepositoryType>
     <RepositoryBranch>master</RepositoryBranch>
+    <PackageProjectUrl>https://github.com/VirRus77/I3dShapes</PackageProjectUrl>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
   </PropertyGroup>
 
-      <PropertyGroup>
-  </PropertyGroup>
-
-    <ItemGroup Condition=" '$(TargetFramework)' == 'net46' ">
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net46' ">
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="1.1.2" />
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
   </ItemGroup>
@@ -35,6 +40,15 @@
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.0.0" />
+  </ItemGroup>
+
+  <!-- SourceLink -->
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE" Link="$(PackageLicenseFile)" PackagePath="" Pack="true" />
   </ItemGroup>
 
 </Project>

@@ -16,6 +16,7 @@ namespace I3dShapes.Tests
     {
         /// <summary>
         /// Read ALL shapes in game directory.
+        /// If 
         /// </summary>
         [TestMethod]
         [DataRow(FarmSimulatorVersion.FarmingSimulator2013)]
@@ -72,6 +73,7 @@ namespace I3dShapes.Tests
                                         {
                                             SaveErrorShape(
                                                 version,
+                                                container.Header.Version,
                                                 filePath,
                                                 new RawNamedShapeObject(valueTuple.Entity.Type, reader, container.Endian)
                                             );
@@ -93,10 +95,16 @@ namespace I3dShapes.Tests
         /// <summary>
         /// Save error parse shape in directory.
         /// </summary>
-        /// <param name="version"></param>
-        /// <param name="shapeFileName"></param>
-        /// <param name="rawShape"></param>
-        private static void SaveErrorShape(FarmSimulatorVersion version, string shapeFileName, IRawNamedShapeObject rawShape)
+        /// <param name="version">Farming simulator version.</param>
+        /// <param name="containerVersion">Container version.</param>
+        /// <param name="shapeFileName">Shape file name.</param>
+        /// <param name="rawShape"><inheritdoc cref="IRawNamedShapeObject"/></param>
+        private static void SaveErrorShape(
+            FarmSimulatorVersion version,
+            short containerVersion,
+            string shapeFileName,
+            IRawNamedShapeObject rawShape
+        )
         {
             var curentPath = Directory.GetCurrentDirectory();
             var outputPath = "Output";
@@ -112,7 +120,7 @@ namespace I3dShapes.Tests
                 Directory.CreateDirectory(outputDirectory);
             }
 
-            var fileName = $"[{rawShape.Id}]_[{rawShape.RawType}]_{FileTools.CleanFileName(rawShape.Name)}.bin";
+            var fileName = $"({containerVersion})[{rawShape.Id}]_[{rawShape.RawType}]_{FileTools.CleanFileName(rawShape.Name)}.bin";
             File.WriteAllBytes(Path.Combine(outputDirectory, fileName), rawShape.RawData);
         }
     }

@@ -1,16 +1,6 @@
-using System.IO;
-using System.Linq;
-using I3dShapes.Container;
-using I3dShapes.Model;
-using I3dShapes.Model.Contract;
-using I3dShapes.Tests.Model;
-using I3dShapes.Tests.Tools;
-using I3dShapes.Tools;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MoreLinq.Extensions;
-
 namespace I3dShapes.Tests
 {
+#if REVERSE_ENGINEERING
     [TestClass]
     public class ReverseEngineeringTests
     {
@@ -34,7 +24,7 @@ namespace I3dShapes.Tests
             }
 
             var container = new ShapeFile(mapPath);
-            container.ReadRawNamedShape(1)
+            container.ReadRawNamedShape(4,5,6,7,8,9,10)
                 .ForEach(v => Save(outputPath, v));
         }
 
@@ -173,4 +163,5 @@ namespace I3dShapes.Tests
             File.WriteAllBytes(Path.Combine(outputPath, fileName), rawShapeObject.RawData);
         }
     }
+#endif // REVERSE_ENGINEERING
 }

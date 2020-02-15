@@ -20,7 +20,7 @@ namespace I3dShapes.Model
 
         public ICollection<PointVector> Points { get; set; }
 
-        private new void Load(BinaryReader reader)
+        private void Load(BinaryReader reader)
         {
             base.Load(reader);
 

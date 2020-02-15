@@ -5,6 +5,7 @@ using I3dShapes.Tools.Extensions;
 
 namespace I3dShapes.Model
 {
+    /// <inheritdoc cref="IRawNamedShapeObject"/>
     public class RawNamedShapeObject : NamedShapeObject, IRawNamedShapeObject
     {
         private readonly Endian _endian;
@@ -26,12 +27,12 @@ namespace I3dShapes.Model
         /// <inheritdoc />
         public long ContentPosition { get; private set; }
 
-        private new void Load(BinaryReader reader)
+        private void Load(BinaryReader reader)
         {
             RawData = reader.ReadAll();
             using var stream = new MemoryStream(RawData);
             using var rawReader = new EndianBinaryReader(stream, _endian);
-            base.Load(rawReader, true);
+            base.Load(rawReader);
             ContentPosition = rawReader.Position();
         }
     }

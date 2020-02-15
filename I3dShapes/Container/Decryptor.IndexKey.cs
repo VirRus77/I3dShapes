@@ -2,14 +2,15 @@
 
 namespace I3dShapes.Container
 {
+    /// <inheritdoc cref="IDecryptor"/>
     internal partial class Decryptor : IDecryptor
     {
         public const int CryptBlockSize = 64;
 
-        public void DecryptBlocks(uint[] buf, ulong blockIndex)
+        public void DecryptBlocks(uint[] buffer, ulong blockIndex)
         {
             var key = GetKeyByIndexBlock(_key, blockIndex);
-            DecryptBlocks(key, buf);
+            DecryptBlocks(key, buffer);
         }
 
         /// <summary>
@@ -28,23 +29,14 @@ namespace I3dShapes.Container
             return tempKey;
         }
 
-        /// <summary>
-        /// Decrypt block
-        /// </summary>
-        /// <param name="buffer">Decrypt block</param>
-        /// <param name="blockIndex">Decrypt block index</param>
+        /// <inheritdoc />
         public void Decrypt(byte[] buffer, ulong blockIndex)
         {
             var nextBlockIndex = 0ul;
             Decrypt(buffer, blockIndex, ref nextBlockIndex);
         }
 
-        /// <summary>
-        /// Decrypt block
-        /// </summary>
-        /// <param name="buffer">Decrypt block</param>
-        /// <param name="blockIndex">Decrypt block index</param>
-        /// <param name="nextBlockIndex">Next decrypt block index</param>
+        /// <inheritdoc />
         public void Decrypt(byte[] buffer, ulong blockIndex, ref ulong nextBlockIndex)
         {
             var copy = new byte[RoundUpTo(buffer.Length, CryptBlockSize)];

@@ -1,5 +1,8 @@
 ﻿namespace I3dShapes.Model.Contract
 {
+    /// <summary>
+    /// Binary representation named shape.
+    /// </summary>
     public interface IRawNamedShapeObject : IRawShapeObject, INamedShapeObject
     {
         /// <summary>

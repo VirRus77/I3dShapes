@@ -269,5 +269,4 @@ short Unknown10;
 short Unknown10_2;
 int Unknown11;
 
-byte Positions2[3776] <bgcolor=0xF08080>;
-byte Positions3[3088] <bgcolor=0xF0F080>;
+byte unk1[Unknown11 * Unknown10]<bgcolor=0xF08080,optimize=false>;

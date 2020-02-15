@@ -12,7 +12,6 @@ namespace I3dShapes.Model
     {
         private readonly int _version;
 
-        //private bool Align => _version >= 4;
         [Flags]
         public enum ContainsFlag : uint
         {
@@ -150,10 +149,10 @@ namespace I3dShapes.Model
         /// </summary>
         public Additions Addition { get; set; }
 
-        private new void Load(BinaryReader reader)
+        private void Load(BinaryReader reader)
         {
-            base.Load(reader, true);
-            var pos = reader.BaseStream.Position;
+            base.Load(reader);
+
             BoundingVolumeX = reader.ReadSingle();
             BoundingVolumeY = reader.ReadSingle();
             BoundingVolumeZ = reader.ReadSingle();

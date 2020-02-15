@@ -18,7 +18,7 @@ namespace I3dShapes.Tests
                 {
                     (FarmSimulatorVersion.FarmingSimulator2015, "map01.i3d.shapes"), new Dictionary<ShapeType, int>
                     {
-                        { ShapeType.Type1, 1155 },
+                        { ShapeType.Shape, 1155 },
                         { ShapeType.Spline, 26 },
                         { ShapeType.NavMesh, 3 },
                     }
@@ -26,7 +26,7 @@ namespace I3dShapes.Tests
                 {
                     (FarmSimulatorVersion.FarmingSimulator2015, "map02.i3d.shapes"), new Dictionary<ShapeType, int>
                     {
-                        { ShapeType.Type1, 833 },
+                        { ShapeType.Shape, 833 },
                         { ShapeType.Spline, 21 },
                         { ShapeType.NavMesh, 3 },
                     }
@@ -34,7 +34,7 @@ namespace I3dShapes.Tests
                 {
                     (FarmSimulatorVersion.FarmingSimulator2017, "map01.i3d.shapes"), new Dictionary<ShapeType, int>
                     {
-                        { ShapeType.Type1, 1144 },
+                        { ShapeType.Shape, 1144 },
                         { ShapeType.Spline, 15 },
                         { ShapeType.Type3, 4 },
                     }
@@ -42,7 +42,7 @@ namespace I3dShapes.Tests
                 {
                     (FarmSimulatorVersion.FarmingSimulator2017, "map02.i3d.shapes"), new Dictionary<ShapeType, int>
                     {
-                        { ShapeType.Type1, 1013 },
+                        { ShapeType.Shape, 1013 },
                         { ShapeType.Spline, 12 },
                         { ShapeType.Type3, 4 },
                     }
@@ -50,7 +50,7 @@ namespace I3dShapes.Tests
                 {
                     (FarmSimulatorVersion.FarmingSimulator2019, "mapDE.i3d.shapes"), new Dictionary<ShapeType, int>
                     {
-                        { ShapeType.Type1, 1788 },
+                        { ShapeType.Shape, 1788 },
                         { ShapeType.Spline, 72 },
                         { ShapeType.Type3, 0 },
                     }
@@ -58,7 +58,7 @@ namespace I3dShapes.Tests
                 {
                     (FarmSimulatorVersion.FarmingSimulator2019, "mapUS.i3d.shapes"), new Dictionary<ShapeType, int>
                     {
-                        { ShapeType.Type1, 2240 },
+                        { ShapeType.Shape, 2240 },
                         { ShapeType.Spline, 107 },
                         { ShapeType.Type3, 0 },
                     }

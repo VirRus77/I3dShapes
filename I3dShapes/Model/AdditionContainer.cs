@@ -1,10 +1,11 @@
 ﻿using System;
 using System.IO;
+using I3dShapes.Model.Contract;
 
 namespace I3dShapes.Model
 {
     /// <summary>
-    /// Addition content in shape type 1.
+    /// Addition content in <see cref="IShapeObject"/>.
     /// </summary>
     public class AdditionContainer
     {
@@ -13,8 +14,14 @@ namespace I3dShapes.Model
             Load(reader);
         }
 
+        /// <summary>
+        /// Type the AdditionContainer.
+        /// </summary>
         public uint Type { get; private set; }
 
+        /// <summary>
+        /// Binary content.
+        /// </summary>
         public byte[] RawData { get; private set; }
 
         private void Load(BinaryReader reader)

@@ -1,17 +1,6 @@
-﻿using System;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using I3dShapes.Container;
-using I3dShapes.Model;
-using I3dShapes.Tests.Model;
-using I3dShapes.Tests.Tools;
-using I3dShapes.Tools;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MoreLinq.Extensions;
-
-namespace I3dShapes.Tests
+﻿namespace I3dShapes.Tests
 {
+#if REVERSE_ENGINEERING
     [TestClass]
     public class LoadShapesTests
     {
@@ -196,4 +185,5 @@ namespace I3dShapes.Tests
             File.WriteAllBytes(filePath, rawData);
         }
     }
+#endif // REVERSE_ENGINEERING
 }

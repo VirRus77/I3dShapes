@@ -7,6 +7,9 @@ using I3dShapes.Tools.Extensions;
 
 namespace I3dShapes.Model
 {
+    /// <summary>
+    /// Named shape object.
+    /// </summary>
     public abstract class NamedShapeObject : ShapeObject, INamedShapeObject
     {
         protected NamedShapeObject(ShapeType type)
@@ -25,18 +28,15 @@ namespace I3dShapes.Model
         /// </summary>
         /// <param name="reader"></param>
         /// <exception cref="UnknownFormatShapeException"></exception>
-        protected void Load(BinaryReader reader, bool isAlign = true)
+        protected void Load(BinaryReader reader)
         {
             var nameLength = reader.ReadInt32();
             Name = Encoding.ASCII.GetString(reader.ReadBytes(nameLength));
 
-            if (isAlign)
+            var align = reader.Align(4);
+            if (align.Any(v => v != 0))
             {
-                var align = reader.Align(4);
-                if (align.Any(v => v != 0))
-                {
-                    throw new UnknownFormatShapeException();
-                }
+                throw new UnknownFormatShapeException();
             }
 
             Id = reader.ReadUInt32();

@@ -5,6 +5,9 @@ using System.Linq;
 
 namespace I3dShapes.Model
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class Additions
     {
         public Additions(BinaryReader reader)
@@ -12,6 +15,9 @@ namespace I3dShapes.Model
             Load(reader);
         }
 
+        /// <summary>
+        /// Collection <see cref="AdditionContainer"/>.
+        /// </summary>
         public ICollection<AdditionContainer> AdditionList { get; private set; }
 
         private void Load(BinaryReader reader)
